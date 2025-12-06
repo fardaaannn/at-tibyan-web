@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Donasi Pembangunan - At-Tibyan</title>
+    <title>Kontak Kami - At-Tibyan</title>
     <link rel="stylesheet" href="style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
@@ -69,54 +69,62 @@
         <h3>Daftar</h3>
         <ul>
           <li><a href="index.html">Beranda</a></li>
-          <li><a href="profil.html" class="active">Profil</a></li>
+          <li><a href="profil.html">Profil</a></li>
           <li><a href="alamat.html">Alamat</a></li>
-          <li><a href="kontak.html">Kontak</a></li>
+          <li><a href="kontak.html" class="active">Kontak</a></li>
           <li><a href="guru.html">Guru</a></li>
           <li><a href="donasi.html">Donasi</a></li>
         </ul>
       </aside>
+
       <main class="content">
         <div class="breadcrumbs">
-          <a href="index.html">Beranda</a> <span>/</span> Donasi
+          <a href="index.html">Beranda</a> <span>/</span> Kontak
         </div>
         <article>
-          <h1>Donasi Pembangunan</h1>
-          <div class="meta">Infaq • Shodaqoh • Jariyah</div>
+          <h1>Hubungi Kami</h1>
+          <div class="meta">Pertanyaan • Pendaftaran • Informasi</div>
           <p>
-            Bantu kami mewujudkan fasilitas pendidikan yang lebih baik bagi para
-            santri. Sebagian harta Anda adalah masa depan bagi pendidikan
-            mereka.
+            Jika Anda memiliki pertanyaan seputar pendaftaran, kurikulum, atau
+            ingin berkunjung, silakan hubungi kami melalui formulir di bawah ini
+            atau WhatsApp.
           </p>
 
-          <div class="note-box" style="text-align: center">
-            <h3>Rekening Donasi</h3>
-            <p
+          <div class="contact-form">
+            <div class="form-group">
+              <label>Nama Lengkap</label>
+              <input type="text" placeholder="Masukkan nama Anda..." />
+            </div>
+            <div class="form-group">
+              <label>Nomor WhatsApp</label>
+              <input type="text" placeholder="Contoh: 0812xxx..." />
+            </div>
+            <div class="form-group">
+              <label>Pesan</label>
+              <textarea
+                rows="5"
+                placeholder="Tulis pesan Anda di sini..."
+              ></textarea>
+            </div>
+            <button class="btn-submit">Kirim Pesan</button>
+          </div>
+
+          <div class="note-box" style="text-align: center; margin-top: 40px">
+            <p>Atau hubungi kami langsung via WhatsApp:</p>
+            <a
+              href="https://wa.me/6281234567890"
               style="
-                font-size: 24px;
+                text-decoration: none;
+                display: inline-block;
+                background: #25d366;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 50px;
                 font-weight: bold;
-                margin: 10px 0;
-                color: #0071e3;
+                margin-top: 10px;
               "
             >
-              BSI: 7123-4567-8900
-            </p>
-            <p>a.n Yayasan At-Tibyan Indonesia</p>
-          </div>
-          <p>Konfirmasi donasi dapat dilakukan melalui WhatsApp admin kami.</p>
-
-          <div class="page-navigation">
-            <a href="guru.html" class="nav-btn">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                style="margin-right: 8px"
-              >
-                <path d="M15 19l-7-7 7-7" />
-              </svg>
-              Kembali: Daftar Guru
+              Chat WhatsApp Admin
             </a>
           </div>
         </article>

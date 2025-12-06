@@ -31,9 +31,7 @@ window.addEventListener("scroll", () => {
   if (Math.ceil(scrollTop + clientHeight) >= scrollHeight) {
     scrolled = 100;
   }
-
   if (progressBar) progressBar.style.width = scrolled + "%";
-
   if (backToTopBtn) {
     if (scrollTop > 300) backToTopBtn.classList.add("show");
     else backToTopBtn.classList.remove("show");
@@ -46,8 +44,14 @@ if (backToTopBtn) {
   });
 }
 
-// --- 3. DATABASE MATERI (LINK BARU) ---
+// --- 3. DATABASE MATERI (UPDATE STRUKTUR BARU) ---
 const databaseMateri = [
+  {
+    judul: "Beranda At-Tibyan",
+    kategori: "Halaman Utama",
+    link: "index.html",
+    isi: "Selamat datang, pengumuman, dan berita terbaru.",
+  },
   {
     judul: "Profil At-Tibyan",
     kategori: "Profil Lembaga",
@@ -56,9 +60,15 @@ const databaseMateri = [
   },
   {
     judul: "Alamat & Lokasi",
-    kategori: "Kontak & Peta",
-    link: "index.html",
-    isi: "Lokasi lengkap, peta Google Maps, dan informasi kontak.",
+    kategori: "Peta & Wilayah",
+    link: "alamat.html",
+    isi: "Lokasi lengkap, peta Google Maps Depok.",
+  },
+  {
+    judul: "Kontak Kami",
+    kategori: "Hubungi Admin",
+    link: "kontak.html",
+    isi: "Nomor WhatsApp, Email, dan Formulir Pertanyaan.",
   },
   {
     judul: "Daftar Guru & Yayasan",
@@ -111,7 +121,6 @@ if (searchInput) {
       searchResults.innerHTML = `<div class="no-result">Tidak ditemukan...</div>`;
     }
   });
-
   document.addEventListener("click", function (e) {
     if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
       searchResults.classList.remove("active");
@@ -128,7 +137,7 @@ if (menuToggle) {
   });
 }
 
-// --- 6. HALAMAN HASIL PENCARIAN ---
+// --- 6. HASIL PENCARIAN PAGE ---
 const containerHasil = document.getElementById("halamanHasilPencarian");
 if (containerHasil) {
   const params = new URLSearchParams(window.location.search);

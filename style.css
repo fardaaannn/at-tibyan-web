@@ -72,7 +72,7 @@ header {
   white-space: nowrap;
 }
 
-/* NAVIGASI */
+/* NAVIGASI HEADER */
 header nav ul {
   display: flex;
   list-style: none;
@@ -97,7 +97,7 @@ header nav a.active {
   gap: 15px;
 }
 
-/* TOMBOL DARK MODE */
+/* TOMBOL & INPUT */
 .theme-toggle {
   background: transparent;
   border: 1px solid var(--border-color);
@@ -118,7 +118,6 @@ header nav a.active {
   height: 18px;
 }
 
-/* SEARCH BAR */
 .search-bar {
   position: relative;
   display: flex;
@@ -219,6 +218,28 @@ article li {
   line-height: 1.7;
 }
 
+/* HERO SECTION (BERANDA) */
+.hero-box {
+  background: linear-gradient(135deg, var(--blue-apple), #0056b3);
+  color: white;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+}
+.hero-box h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: white;
+}
+.hero-box p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+/* ELEMENT LAIN */
 .rumus-box {
   background: var(--card-bg);
   padding: 30px;
@@ -239,7 +260,6 @@ article li {
   color: var(--text-color);
   margin: 30px 0;
 }
-
 .breadcrumbs {
   font-size: 13px;
   color: var(--text-color);
@@ -304,7 +324,46 @@ article li {
   transform: translateY(-3px);
 }
 
-/* HASIL PENCARIAN DROPDOWN */
+/* FORM KONTAK */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-color);
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--blue-apple);
+  background: var(--card-bg);
+}
+.btn-submit {
+  background: var(--blue-apple);
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-submit:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+/* HASIL PENCARIAN & FOOTER */
 .search-results {
   position: absolute;
   top: 50px;
@@ -363,7 +422,6 @@ article li {
   opacity: 0.6;
 }
 
-/* BUTTON BACK TO TOP */
 #backToTop {
   position: fixed;
   bottom: 40px;
@@ -395,7 +453,6 @@ article li {
   transform: translateX(-50%) translateY(-5px);
 }
 
-/* PROGRESS BAR */
 .progress-container {
   position: fixed;
   top: 60px;
@@ -421,7 +478,6 @@ footer {
   border-top: 1px solid var(--border-color);
   margin-top: 80px;
 }
-
 .menu-toggle {
   display: none;
   flex-direction: column;
