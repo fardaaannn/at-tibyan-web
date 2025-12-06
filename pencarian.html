@@ -3,52 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hasil Pencarian</title>
+    <title>Hasil Pencarian - At-Tibyan</title>
     <link rel="stylesheet" href="style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <style>
-      .search-container {
-        max-width: 800px;
-        margin: 40px auto;
-        padding: 0 20px;
-      }
-      .page-title {
-        font-size: 24px;
-        margin-bottom: 30px;
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 10px;
-        color: var(--text-color);
-      }
-      .result-card {
-        background: var(--card-bg);
-        padding: 25px;
-        margin-bottom: 20px;
-        border-radius: 12px;
-        box-shadow: 0 2px 10px var(--shadow-color);
-        border: 1px solid var(--border-color);
-      }
-      .result-card h3 a {
-        text-decoration: none;
-        color: var(--blue-apple);
-      }
-      .result-card p {
-        color: var(--text-color);
-        margin-top: 10px;
-      }
-    </style>
   </head>
   <body>
     <header>
+      <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+      </div>
       <div class="header-content">
         <div class="header-left-group">
-          <div class="logo"> PintarBelajar</div>
+          <div class="logo">At-Tibyan</div>
           <nav>
             <ul class="nav-list">
               <li><a href="index.html">Beranda</a></li>
-              <li><a href="#">SD</a></li>
               <li><a href="#">SMP</a></li>
               <li><a href="#">SMA</a></li>
             </ul>
@@ -84,20 +56,58 @@
             <input
               type="text"
               id="searchInput"
-              placeholder="Cari materi..."
+              placeholder="Cari info..."
               autocomplete="off"
             />
             <div class="search-results" id="searchResults"></div>
           </div>
-          <a href="#" class="btn-login" id="loginBtn">Masuk</a>
+          <div class="menu-toggle"><span></span><span></span><span></span></div>
         </div>
       </div>
     </header>
 
-    <div class="search-container">
-      <h1 class="page-title" id="judulPencarian">Hasil Pencarian</h1>
-      <div id="halamanHasilPencarian"></div>
+    <div class="container">
+      <aside class="sidebar">
+        <h3>Daftar</h3>
+        <ul>
+          <li><a href="profil.html">Profil</a></li>
+          <li><a href="index.html">Alamat</a></li>
+          <li><a href="guru.html">Guru</a></li>
+          <li><a href="donasi.html">Donasi untuk Pembangunan</a></li>
+        </ul>
+      </aside>
+
+      <main class="content">
+        <div class="breadcrumbs">
+          <a href="index.html">Beranda</a> <span>/</span> Pencarian
+        </div>
+
+        <article>
+          <h1 id="judulPencarian">Hasil Pencarian</h1>
+          <div class="meta">Menampilkan hasil yang relevan</div>
+
+          <div id="halamanHasilPencarian"></div>
+
+          <div class="page-navigation">
+            <a href="index.html" class="nav-btn">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                style="margin-right: 8px"
+              >
+                <path d="M15 19l-7-7 7-7" />
+              </svg>
+              Kembali ke Beranda
+            </a>
+          </div>
+        </article>
+      </main>
     </div>
+
+    <button id="backToTop">Kembali ke Atas</button>
+    <footer>© 2024 At-Tibyan. All rights reserved.</footer>
 
     <script src="script.js"></script>
   </body>
