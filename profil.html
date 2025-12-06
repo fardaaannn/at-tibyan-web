@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil At-Tibyan</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+      </div>
+      <div class="header-content">
+        <div class="header-left-group">
+          <div class="logo">At-Tibyan</div>
+          <nav>
+            <ul class="nav-list">
+              <li><a href="index.html">Beranda</a></li>
+              <li><a href="#">SMP</a></li>
+              <li><a href="#">SMA</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="header-right">
+          <button class="theme-toggle" id="themeToggle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+              />
+            </svg>
+          </button>
+          <div class="search-bar">
+            <svg
+              class="search-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Cari info..."
+              autocomplete="off"
+            />
+            <div class="search-results" id="searchResults"></div>
+          </div>
+          <div class="menu-toggle"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <aside class="sidebar">
+        <h3>Daftar</h3>
+        <ul>
+          <li><a href="profil.html" class="active">Profil</a></li>
+          <li><a href="index.html">Alamat</a></li>
+          <li><a href="guru.html">Guru</a></li>
+          <li><a href="donasi.html">Donasi untuk Pembangunan</a></li>
+        </ul>
+      </aside>
+
+      <main class="content">
+        <div class="breadcrumbs">
+          <a href="index.html">Beranda</a> <span>/</span> Profil
+        </div>
+        <article>
+          <h1>Profil At-Tibyan</h1>
+          <div class="meta">Tentang Kami • Sejarah & Visi Misi</div>
+          <p>
+            <strong>At-Tibyan</strong> adalah lembaga pendidikan yang
+            berdedikasi untuk mencetak generasi yang cerdas, berakhlak mulia,
+            dan berwawasan luas. Kami berkomitmen menyediakan lingkungan belajar
+            yang kondusif dan Islami.
+          </p>
+          <div class="note-box">
+            "Membentuk Generasi Qur'ani yang Berprestasi dan Berakhlakul
+            Karimah."
+          </div>
+          <h2>Visi & Misi</h2>
+          <p>
+            Visi kami adalah menjadi pusat pendidikan unggulan yang memadukan
+            ilmu pengetahuan umum dan ilmu agama. Misi kami meliputi
+            pengembangan kurikulum terpadu dan peningkatan kualitas tenaga
+            pengajar.
+          </p>
+
+          <div class="page-navigation">
+            <div></div>
+            <a href="index.html" class="nav-btn">
+              Cek Alamat Kami
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                style="margin-left: 8px"
+              >
+                <path d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      </main>
+    </div>
+    <button id="backToTop">Kembali ke Atas</button>
+    <footer>© 2024 At-Tibyan. All rights reserved.</footer>
+    <script src="script.js"></script>
+  </body>
+</html>
