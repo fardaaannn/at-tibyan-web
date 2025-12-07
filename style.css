@@ -387,3 +387,108 @@ textarea:focus {
     font-size: 32px;
   }
 }
+/* --- KHUSUS HALAMAN BIODATA --- */
+.bio-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 40px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.bio-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+}
+
+.bio-title h1 {
+  font-size: 32px;
+  margin-bottom: 5px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.bio-title .role {
+  font-size: 18px;
+  color: #86868b;
+  font-weight: 500;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  color: var(--blue-apple);
+  display: flex;
+  align-items: center;
+}
+
+.section-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-color);
+  margin-left: 15px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table td {
+  padding: 12px 0;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 17px;
+}
+
+.data-table td:first-child {
+  width: 160px;
+  font-weight: 500;
+  color: #86868b;
+}
+
+ul.detail-list {
+  padding-left: 20px;
+  margin: 0;
+}
+
+ul.detail-list li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+  font-size: 17px;
+}
+
+.sub-category {
+  font-weight: 600;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  color: var(--text-color);
+  font-size: 18px;
+}
+
+/* Responsif untuk Biodata */
+@media (max-width: 600px) {
+  .bio-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  .data-table td {
+    display: block;
+    width: 100% !important;
+    padding: 4px 0;
+  }
+  .data-table td:first-child {
+    margin-top: 15px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
