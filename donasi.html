@@ -2,7 +2,6 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="author" content="Fardan Azzuhri" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Donasi Pembangunan - At-Tibyan</title>
     <link rel="stylesheet" href="style.css" />
@@ -63,20 +62,77 @@
 
         <div class="note-box" style="text-align: center">
           <h3>Rekening Donasi</h3>
-          <p
+
+          <div
             style="
-              font-size: 24px;
-              font-weight: bold;
-              margin: 10px 0;
-              color: var(--blue-apple);
+              background: var(--card-bg);
+              border: 1px solid var(--border-color);
+              display: inline-flex;
+              align-items: center;
+              padding: 10px 20px;
+              border-radius: 12px;
+              margin: 15px 0;
+              gap: 10px;
             "
           >
-            BSI: 7123-4567-8900
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Bank_Syariah_Indonesia.svg"
+              alt="BSI"
+              style="height: 20px"
+            />
+            <span
+              id="norek"
+              style="font-size: 20px; font-weight: bold; font-family: monospace"
+              >712345678900</span
+            >
+
+            <button
+              onclick="salinRekening()"
+              style="
+                border: none;
+                background: var(--input-bg);
+                padding: 8px;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: 0.2s;
+              "
+              title="Salin Nomor"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"
+                />
+                <path
+                  d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <p
+            id="copyAlert"
+            style="
+              font-size: 13px;
+              color: green;
+              display: none;
+              margin-top: 5px;
+            "
+          >
+            Nomor rekening berhasil disalin!
           </p>
           <p>a.n Yayasan At-Tibyan Indonesia</p>
         </div>
 
-        <p>Konfirmasi donasi dapat dilakukan melalui WhatsApp admin kami.</p>
+        <p>
+          Setelah melakukan transfer, silakan konfirmasi melalui admin kami di
+          halaman kontak.
+        </p>
 
         <div class="page-navigation">
           <a href="guru.html" class="nav-btn">
@@ -89,7 +145,7 @@
             >
               <path d="M15 19l-7-7 7-7" />
             </svg>
-            Kembali: Guru
+            Kembali: Daftar Guru
           </a>
           <a href="kontak.html" class="nav-btn">
             Konfirmasi Donasi
@@ -106,10 +162,36 @@
         </div>
       </article>
     </div>
-    <button id="backToTop">Kembali ke Atas</button>
-    <script src="script.js"></script>
+
     <div style="display: none" id="dev-signature">
       &#67;&#114;&#101;&#97;&#116;&#101;&#100;&#32;&#98;&#121;&#32;&#70;&#97;&#114;&#100;&#97;&#110;&#32;&#65;&#122;&#122;&#117;&#104;&#114;&#105;
     </div>
+
+    <button id="backToTop">Kembali ke Atas</button>
+    <script src="script.js"></script>
+
+    <script>
+      function salinRekening() {
+        // Ambil teks nomor rekening
+        var norekText = document.getElementById("norek").innerText;
+
+        // Salin ke clipboard
+        navigator.clipboard.writeText(norekText).then(
+          function () {
+            // Tampilkan pesan sukses
+            var alertBox = document.getElementById("copyAlert");
+            alertBox.style.display = "block";
+
+            // Hilangkan pesan setelah 2 detik
+            setTimeout(function () {
+              alertBox.style.display = "none";
+            }, 2000);
+          },
+          function (err) {
+            console.error("Gagal menyalin: ", err);
+          }
+        );
+      }
+    </script>
   </body>
 </html>
