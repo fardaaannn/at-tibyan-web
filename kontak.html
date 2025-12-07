@@ -64,38 +64,29 @@
         <div style="margin-top: 30px">
           <div class="form-group">
             <label>Nama Lengkap</label>
-            <input type="text" placeholder="Masukkan nama Anda..." />
-          </div>
-
-          <div class="form-group">
-            <label>Nomor WhatsApp</label>
             <input
-              type="tel"
-              inputmode="numeric"
-              placeholder="Contoh: 0812xxxx (Hanya Angka)"
-              minlength="10"
-              maxlength="13"
-              pattern="[0-9]*"
-              oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-              title="Mohon masukkan hanya angka (10-13 digit)"
+              type="text"
+              id="inputNama"
+              placeholder="Masukkan nama Anda..."
             />
-            <small style="color: #666; font-size: 12px"
-              >*Masukkan nomor aktif (10-13 digit)</small
-            >
           </div>
 
           <div class="form-group">
             <label>Pesan</label>
             <textarea
+              id="inputPesan"
               rows="5"
               placeholder="Tulis pesan Anda di sini..."
             ></textarea>
           </div>
-          <button class="btn-submit">Kirim Pesan</button>
+
+          <button class="btn-submit" onclick="kirimKeWA()">
+            Kirim Pesan ke WhatsApp
+          </button>
         </div>
 
         <div class="note-box" style="text-align: center; margin-top: 40px">
-          <p style="margin-bottom: 15px">Kontak dan Media Sosial kami:</p>
+          <p style="margin-bottom: 15px">Ikuti Media Sosial Kami:</p>
 
           <div
             style="
@@ -105,25 +96,6 @@
               flex-wrap: wrap;
             "
           >
-            <a
-              href="https://wa.me/6285176849339"
-              target="_blank"
-              style="
-                text-decoration: none;
-                display: inline-flex;
-                align-items: center;
-                background: #25d366;
-                color: white;
-                padding: 12px 24px;
-                border-radius: 50px;
-                font-weight: 600;
-                font-size: 15px;
-                transition: transform 0.2s;
-              "
-            >
-              WhatsApp
-            </a>
-
             <a
               href="https://www.instagram.com/pondokattibyan?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
               target="_blank"
@@ -172,8 +144,40 @@
         </div>
       </article>
     </div>
+
+    <div style="display: none" id="dev-signature">
+      &#67;&#114;&#101;&#97;&#116;&#101;&#100;&#32;&#98;&#121;&#32;&#70;&#97;&#114;&#100;&#97;&#110;&#32;&#65;&#122;&#122;&#117;&#104;&#114;&#105;
+    </div>
+
     <button id="backToTop">Kembali ke Atas</button>
     <script src="script.js"></script>
+
+    <script>
+      function kirimKeWA() {
+        // Ambil nilai dari input
+        var nama = document.getElementById("inputNama").value;
+        var pesan = document.getElementById("inputPesan").value;
+        var nomorAdmin = "6285176849339"; // Nomor Admin
+
+        // Validasi jika kosong
+        if (nama === "" || pesan === "") {
+          alert("Mohon isi Nama dan Pesan terlebih dahulu.");
+          return;
+        }
+
+        // Format pesan untuk WhatsApp
+        // %0A adalah kode untuk Enter (baris baru)
+        var textEncoded =
+          "Assalamu'alaikum Admin At-Tibyan,%0A%0ASaya *" +
+          nama +
+          "*.%0A" +
+          pesan;
+
+        // Buka link WhatsApp
+        var url = "https://wa.me/" + nomorAdmin + "?text=" + textEncoded;
+        window.open(url, "_blank");
+      }
+    </script>
     <div style="display: none" id="dev-signature">
       &#67;&#114;&#101;&#97;&#116;&#101;&#100;&#32;&#98;&#121;&#32;&#70;&#97;&#114;&#100;&#97;&#110;&#32;&#65;&#122;&#122;&#117;&#104;&#114;&#105;
     </div>
