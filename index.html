@@ -3,28 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Website Resmi Yayasan At-Tibyan Depok. Informasi profil, pendidikan, dan pendaftaran santri baru."
-    />
     <title>Beranda - At-Tibyan</title>
     <link rel="stylesheet" href="style.css" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
     <header>
-      <div class="progress-container">
-        <div class="progress-bar" id="myBar"></div>
-      </div>
       <div class="header-content">
         <div class="header-left-group">
-          <div class="logo">At-Tibyan</div>
+          <a href="index.html" class="logo">At-Tibyan</a>
+          <div class="menu-toggle"><span></span><span></span><span></span></div>
           <nav>
-            <ul class="nav-list">
+            <ul>
               <li><a href="index.html" class="active">Beranda</a></li>
+              <li><a href="profil.html">Profil</a></li>
+              <li><a href="alamat.html">Alamat</a></li>
+              <li><a href="guru.html">Guru</a></li>
+              <li><a href="donasi.html">Donasi</a></li>
+              <li><a href="kontak.html">Kontak</a></li>
             </ul>
           </nav>
         </div>
@@ -44,108 +43,69 @@
               />
             </svg>
           </button>
-          <div class="search-bar">
-            <svg
-              class="search-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="Cari info..."
-              autocomplete="off"
-            />
-            <div class="search-results" id="searchResults"></div>
-          </div>
-          <div class="menu-toggle"><span></span><span></span><span></span></div>
         </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
       </div>
     </header>
 
     <div class="container">
-      <aside class="sidebar">
-        <h3>Daftar</h3>
-        <ul>
-          <li><a href="index.html" class="active">Beranda</a></li>
-          <li><a href="profil.html">Profil</a></li>
-          <li><a href="alamat.html">Alamat</a></li>
-          <li><a href="kontak.html">Kontak</a></li>
-          <li><a href="guru.html">Guru</a></li>
-          <li><a href="donasi.html">Donasi</a></li>
-        </ul>
-      </aside>
+      <article>
+        <h1>Selamat Datang di At-Tibyan</h1>
+        <div class="meta">Pendidikan • Dakwah • Sosial</div>
 
-      <main class="content">
-        <div class="hero-box">
-          <h2>Selamat Datang di At-Tibyan</h2>
-          <p>
-            Membentuk Generasi Qur'ani yang Berprestasi dan Berakhlakul Karimah
-          </p>
+        <p>
+          Yayasan At-Tibyan hadir sebagai wadah pendidikan Islam yang
+          berkomitmen mencetak generasi Qur'ani, berakhlak mulia, dan siap
+          menghadapi tantangan zaman dengan bekal iman dan ilmu.
+        </p>
+
+        <div class="note-box">
+          <strong>PENDAFTARAN SANTRI BARU</strong><br />
+          Tahun Ajaran 2024/2025
+          <span style="color: #28a745; font-weight: bold">DIBUKA</span> <br />
+          Segera hubungi admin kami untuk informasi kuota dan persyaratan.
         </div>
 
-        <article>
-          <h1>Info Terkini</h1>
-          <div class="meta">Berita & Pengumuman Yayasan</div>
+        <h3>Program Unggulan</h3>
+        <ul>
+          <li>Tahfidz Al-Qur'an Bersanad</li>
+          <li>Bahasa Arab & Inggris Aktif</li>
+          <li>Kajian Kitab Kuning Dasar</li>
+          <li>Ekstrakurikuler Olahraga Sunnah</li>
+        </ul>
 
-          <h3>Penerimaan Santri Baru</h3>
-          <p>
-            Alhamdulillah, Yayasan At-Tibyan Depok kini membuka pendaftaran
-            untuk Tahun Ajaran 2025/2026. Kami mengundang putra-putri Bapak/Ibu
-            untuk bergabung bersama kami dalam lingkungan pendidikan yang Islami
-            dan berkualitas.
-          </p>
-
-          <div class="note-box">
-            <strong>Status Pendaftaran:</strong>
-            <span style="color: #28a745; font-weight: bold">DIBUKA</span> <br />
-            Segera hubungi admin kami untuk informasi kuota dan persyaratan.
-          </div>
-
-          <h3>Program Unggulan</h3>
-          <ul>
-            <li>Tahfidz Al-Qur'an Bersanad</li>
-            <li>Bahasa Arab & Inggris Aktif</li>
-            <li>Kajian Kitab Kuning Dasar</li>
-            <li>Ekstrakurikuler Olahraga Sunnah (Memanah & Berenang)</li>
-          </ul>
-
-          <div class="page-navigation">
-            <a href="profil.html" class="nav-btn">
-              Tentang Kami
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                style="margin-left: 8px"
-              >
-                <path d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-            <a href="kontak.html" class="nav-btn">
-              Daftar Sekarang
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                style="margin-left: 8px"
-              >
-                <path d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-          </div>
-        </article>
-      </main>
+        <div class="page-navigation">
+          <a href="profil.html" class="nav-btn">
+            Tentang Kami
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              style="margin-left: 8px"
+            >
+              <path d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+          <a href="kontak.html" class="nav-btn">
+            Daftar Sekarang
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              style="margin-left: 8px"
+            >
+              <path d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </article>
     </div>
+
     <button id="backToTop">Kembali ke Atas</button>
-    <footer>© 2024 At-Tibyan. All rights reserved.</footer>
     <script src="script.js"></script>
   </body>
 </html>

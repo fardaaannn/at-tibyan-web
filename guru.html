@@ -6,21 +6,24 @@
     <title>Struktur Yayasan & Guru - At-Tibyan</title>
     <link rel="stylesheet" href="style.css" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
     <header>
-      <div class="progress-container">
-        <div class="progress-bar" id="myBar"></div>
-      </div>
       <div class="header-content">
         <div class="header-left-group">
-          <div class="logo">At-Tibyan</div>
+          <a href="index.html" class="logo">At-Tibyan</a>
+          <div class="menu-toggle"><span></span><span></span><span></span></div>
           <nav>
-            <ul class="nav-list">
+            <ul>
               <li><a href="index.html">Beranda</a></li>
+              <li><a href="profil.html">Profil</a></li>
+              <li><a href="alamat.html">Alamat</a></li>
+              <li><a href="guru.html" class="active">Guru</a></li>
+              <li><a href="donasi.html">Donasi</a></li>
+              <li><a href="kontak.html">Kontak</a></li>
             </ul>
           </nav>
         </div>
@@ -40,133 +43,126 @@
               />
             </svg>
           </button>
-          <div class="search-bar">
-            <svg
-              class="search-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="Cari info..."
-              autocomplete="off"
-            />
-            <div class="search-results" id="searchResults"></div>
-          </div>
-          <div class="menu-toggle"><span></span><span></span><span></span></div>
         </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
       </div>
     </header>
 
     <div class="container">
-      <aside class="sidebar">
-        <h3>Daftar</h3>
-        <ul>
-          <li><a href="index.html">Beranda</a></li>
-          <li><a href="profil.html" class="active">Profil</a></li>
-          <li><a href="alamat.html">Alamat</a></li>
-          <li><a href="kontak.html">Kontak</a></li>
-          <li><a href="guru.html">Guru</a></li>
-          <li><a href="donasi.html">Donasi</a></li>
-        </ul>
-      </aside>
-      <main class="content">
-        <div class="breadcrumbs">
-          <a href="index.html">Beranda</a> <span>/</span> Guru
+      <article>
+        <h1>Struktur Yayasan</h1>
+        <div class="meta">Manajemen • Tenaga Pendidik</div>
+
+        <p>
+          Yayasan At-Tibyan dikelola oleh tenaga profesional dan diasuh oleh
+          asatidz yang kompeten di bidangnya, berdedikasi untuk mencetak
+          generasi Qur'ani.
+        </p>
+
+        <div style="margin-top: 30px">
+          <h3>Pengurus Yayasan</h3>
+          <ul style="list-style: none; padding: 0">
+            <li
+              style="
+                background: var(--input-bg);
+                padding: 15px;
+                border-radius: 12px;
+                margin-bottom: 10px;
+              "
+            >
+              <strong style="font-size: 1.1rem; color: var(--text-color)"
+                >Dr. Mu'allim Yusuf Hidayat, MA</strong
+              >
+              <br /><span style="color: #666; font-size: 0.9em"
+                >Ketua Yayasan</span
+              >
+            </li>
+
+            <li
+              style="
+                background: var(--input-bg);
+                padding: 15px;
+                border-radius: 12px;
+                margin-bottom: 10px;
+              "
+            >
+              <strong style="font-size: 1.1rem; color: var(--text-color)"
+                >Al-Ustadz Ahmad Hafiz Kamil S.Pd</strong
+              >
+              <br /><span style="color: #666; font-size: 0.9em"
+                >Wakil Ketua Yayasan</span
+              >
+            </li>
+
+            <li
+              style="
+                background: var(--input-bg);
+                padding: 15px;
+                border-radius: 12px;
+                margin-bottom: 10px;
+              "
+            >
+              <strong style="font-size: 1.1rem; color: var(--text-color)"
+                >Al-Ustadz Ahmad Hilmi Zidan, LC</strong
+              >
+              <br /><span style="color: #666; font-size: 0.9em"
+                >Sekertaris</span
+              >
+            </li>
+
+            <li
+              style="
+                background: var(--input-bg);
+                padding: 15px;
+                border-radius: 12px;
+                margin-bottom: 10px;
+              "
+            >
+              <strong style="font-size: 1.1rem; color: var(--text-color)"
+                >Al-Ustadz Ahmad Sahhil Fuadi</strong
+              >
+              <br /><span style="color: #666; font-size: 0.9em">Bendahara</span>
+            </li>
+          </ul>
         </div>
-        <article>
-          <h1>Struktur Yayasan & Guru</h1>
-          <div class="meta">Pimpinan • Pengajar • Manajemen</div>
-          <p>
-            Berikut adalah susunan kepengurusan yayasan dan tenaga pengajar yang
-            berdedikasi di At-Tibyan.
-          </p>
 
-          <div class="rumus-box" style="text-align: left; font-size: 1rem">
-            <ul style="list-style: none; padding-left: 0">
-              <li
-                style="
-                  margin-bottom: 15px;
-                  border-bottom: 1px solid #ddd;
-                  padding-bottom: 10px;
-                "
-              >
-                <strong style="font-size: 1.1rem; color: var(--blue-apple)"
-                  >Dr. Mu'aliim Yusuf Hidayat, MA</strong
-                >
-                <br />
-                <span>Pemimpin Yayasan</span>
-              </li>
-              <li
-                style="
-                  margin-bottom: 15px;
-                  border-bottom: 1px solid #ddd;
-                  padding-bottom: 10px;
-                "
-              >
-                <strong style="font-size: 1.1rem; color: var(--blue-apple)"
-                  >Ahmad Hilmi Zidan</strong
-                >
-                <br />
-                <span>Wakil Pemimpin Yayasan</span>
-              </li>
-              <li
-                style="
-                  margin-bottom: 15px;
-                  border-bottom: 1px solid #ddd;
-                  padding-bottom: 10px;
-                "
-              >
-                <strong style="font-size: 1.1rem; color: var(--blue-apple)"
-                  >Ahmad Sahhil Fuadi</strong
-                >
-                <br />
-                <span>Sekertaris</span>
-              </li>
-            </ul>
-          </div>
-          <p>
-            Kami terus meningkatkan kualitas manajemen dan SDM kami demi
-            kemajuan pendidikan.
-          </p>
+        <p>
+          Kami terus meningkatkan kualitas manajemen dan SDM kami demi kemajuan
+          pendidikan.
+        </p>
 
-          <div class="page-navigation">
-            <a href="index.html" class="nav-btn">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                style="margin-right: 8px"
-              >
-                <path d="M15 19l-7-7 7-7" />
-              </svg>
-              Kembali ke Alamat
-            </a>
-            <a href="donasi.html" class="nav-btn">
-              Donasi Pembangunan
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                style="margin-left: 8px"
-              >
-                <path d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-          </div>
-        </article>
-      </main>
+        <div class="page-navigation">
+          <a href="alamat.html" class="nav-btn">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              style="margin-right: 8px"
+            >
+              <path d="M15 19l-7-7 7-7" />
+            </svg>
+            Kembali ke Alamat
+          </a>
+          <a href="donasi.html" class="nav-btn">
+            Donasi Pembangunan
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              style="margin-left: 8px"
+            >
+              <path d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </article>
     </div>
+
     <button id="backToTop">Kembali ke Atas</button>
-    <footer>© 2024 At-Tibyan. All rights reserved.</footer>
     <script src="script.js"></script>
   </body>
 </html>
