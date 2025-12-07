@@ -2,27 +2,29 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
+    <meta name="author" content="Fardan Azzuhri" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hasil Pencarian - At-Tibyan</title>
     <link rel="stylesheet" href="style.css" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
     <header>
-      <div class="progress-container">
-        <div class="progress-bar" id="myBar"></div>
-      </div>
       <div class="header-content">
         <div class="header-left-group">
-          <div class="logo">At-Tibyan</div>
+          <a href="index.html" class="logo">At-Tibyan</a>
+          <div class="menu-toggle"><span></span><span></span><span></span></div>
           <nav>
-            <ul class="nav-list">
+            <ul>
               <li><a href="index.html">Beranda</a></li>
-              <li><a href="#">SMP</a></li>
-              <li><a href="#">SMA</a></li>
+              <li><a href="profil.html">Profil</a></li>
+              <li><a href="alamat.html">Alamat</a></li>
+              <li><a href="guru.html">Guru</a></li>
+              <li><a href="donasi.html">Donasi</a></li>
+              <li><a href="kontak.html">Kontak</a></li>
             </ul>
           </nav>
         </div>
@@ -42,73 +44,44 @@
               />
             </svg>
           </button>
-          <div class="search-bar">
-            <svg
-              class="search-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="Cari info..."
-              autocomplete="off"
-            />
-            <div class="search-results" id="searchResults"></div>
-          </div>
-          <div class="menu-toggle"><span></span><span></span><span></span></div>
         </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
       </div>
     </header>
 
     <div class="container">
-      <aside class="sidebar">
-        <h3>Daftar</h3>
-        <ul>
-          <li><a href="profil.html">Profil</a></li>
-          <li><a href="index.html">Alamat</a></li>
-          <li><a href="guru.html">Guru</a></li>
-          <li><a href="donasi.html">Donasi untuk Pembangunan</a></li>
-        </ul>
-      </aside>
+      <article>
+        <h1 id="judulPencarian">Pencarian</h1>
+        <div class="meta">Menampilkan hasil pencarian</div>
 
-      <main class="content">
-        <div class="breadcrumbs">
-          <a href="index.html">Beranda</a> <span>/</span> Pencarian
+        <div
+          id="halamanHasilPencarian"
+          style="margin-top: 30px; min-height: 200px"
+        ></div>
+
+        <div class="page-navigation">
+          <a href="index.html" class="nav-btn">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              style="margin-right: 8px"
+            >
+              <path d="M15 19l-7-7 7-7" />
+            </svg>
+            Kembali ke Beranda
+          </a>
         </div>
-
-        <article>
-          <h1 id="judulPencarian">Hasil Pencarian</h1>
-          <div class="meta">Menampilkan hasil yang relevan</div>
-
-          <div id="halamanHasilPencarian"></div>
-
-          <div class="page-navigation">
-            <a href="index.html" class="nav-btn">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                style="margin-right: 8px"
-              >
-                <path d="M15 19l-7-7 7-7" />
-              </svg>
-              Kembali ke Beranda
-            </a>
-          </div>
-        </article>
-      </main>
+      </article>
     </div>
 
     <button id="backToTop">Kembali ke Atas</button>
-    <footer>© 2024 At-Tibyan. All rights reserved.</footer>
-
     <script src="script.js"></script>
+    <div style="display: none" id="dev-signature">
+      &#67;&#114;&#101;&#97;&#116;&#101;&#100;&#32;&#98;&#121;&#32;&#70;&#97;&#114;&#100;&#97;&#110;&#32;&#65;&#122;&#122;&#117;&#104;&#114;&#105;
+    </div>
   </body>
 </html>
