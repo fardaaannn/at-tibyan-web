@@ -835,3 +835,18 @@ tr:last-child td {
 .select-wrapper {
   position: relative;
 }
+/* Style Tambahan untuk Tabel Donasi Dinamis */
+.badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge.masuk {
+  background-color: rgba(52, 199, 89, 0.1);
+  color: #34c759;
+}
+.badge.keluar {
+  background-color: rgba(255, 59, 48, 0.1);
+  color: #ff3b30;
+}

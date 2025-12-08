@@ -294,113 +294,90 @@ if (kirimPesanBtn) {
   });
 }
 
-// --- 7. FITUR JADWAL SHOLAT (Fixed by Gemini) ---
-const DEFAULT_CITY = "Depok";
-const DEFAULT_COUNTRY = "Indonesia";
-
-document.addEventListener("DOMContentLoaded", () => {
-  checkLocationAndFetch();
-});
-
-function checkLocationAndFetch() {
-  // Menggunakan elemen 'teks-kota' yang benar
-  const statusLokasi = document.getElementById("teks-kota");
+// --- 1. Fungsi Mendapatkan Lokasi (GPS) ---
+function getLocation() {
+  const lokasiStatus = document.getElementById("teks-kota");
 
   if (navigator.geolocation) {
-    if (statusLokasi) statusLokasi.textContent = "Mendeteksi Lokasi...";
+    // Ubah teks jadi loading
+    if (lokasiStatus) lokasiStatus.textContent = "Mencari Lokasi...";
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        // SUKSES: Ambil koordinat
         const lat = position.coords.latitude;
         const long = position.coords.longitude;
-        console.log(`Lokasi ditemukan: ${lat}, ${long}`);
-
-        getJadwalByCoordinates(lat, long);
+        getJadwalSholat(lat, long);
         getCityName(lat, long);
       },
       (error) => {
-        console.warn("Izin lokasi ditolak/error, kembali ke default.", error);
-        getJadwalByCity(DEFAULT_CITY, DEFAULT_COUNTRY);
+        // GAGAL: User menolak atau GPS mati
+        console.warn("GPS Error/Ditolak, menggunakan default Jakarta.");
+        getJadwalByCity("Jakarta", "Indonesia");
       }
     );
   } else {
-    getJadwalByCity(DEFAULT_CITY, DEFAULT_COUNTRY);
+    // Browser tidak support GPS
+    console.warn("Browser tidak support Geolocation.");
+    getJadwalByCity("Jakarta", "Indonesia");
   }
 }
 
-async function getJadwalByCoordinates(lat, long) {
+// --- 2. Ambil Jadwal via Koordinat (GPS) ---
+async function getJadwalSholat(latitude, longitude) {
   try {
-    const originalUrl = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${long}&method=20`;
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(
-      originalUrl
-    )}`;
+    // LANGSUNG ke API Aladhan (Tanpa Proxy) agar lebih cepat & stabil
+    // Menggunakan timestamp hari ini
+    const today = Math.floor(Date.now() / 1000);
+    const url = `https://api.aladhan.com/v1/timings/${today}?latitude=${latitude}&longitude=${longitude}&method=20`;
 
-    const response = await fetch(proxyUrl);
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Gagal mengambil data API");
+
     const result = await response.json();
 
     if (result.data && result.data.timings) {
       updateUI(result.data.timings);
+      // Simpan koordinat terakhir jika perlu
+      updateLocationTitle("Sesuai Lokasi Anda");
     }
   } catch (error) {
-    console.error("Gagal ambil jadwal GPS:", error);
+    console.error("Error Fetch Koordinat:", error);
+    // Jika gagal koordinat, coba fallback ke Jakarta
+    getJadwalByCity("Jakarta", "Indonesia");
   }
 }
 
-async function getCityName(lat, long) {
-  try {
-    const geoUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${long}&localityLanguage=id`;
-    const response = await fetch(geoUrl);
-    const data = await response.json();
-    const locationName = data.locality || data.city || "Lokasi Anda";
-    updateLocationTitle(locationName);
-  } catch (error) {
-    console.error("Gagal cari nama kota:", error);
-    updateLocationTitle("Sesuai GPS");
-  }
-}
-
-// Fungsi yang sebelumnya hilang, kini dikembalikan
+// --- 3. Ambil Jadwal via Nama Kota (Default/Fallback) ---
 async function getJadwalByCity(city, country) {
   try {
     updateLocationTitle(city);
-    const originalUrl = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=20`;
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(
-      originalUrl
-    )}`;
 
-    const response = await fetch(proxyUrl);
+    // LANGSUNG ke API Aladhan (Tanpa Proxy)
+    const url = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=20`;
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Gagal mengambil data Kota");
+
     const result = await response.json();
 
     if (result.data && result.data.timings) {
       updateUI(result.data.timings);
     }
   } catch (error) {
-    console.error("Gagal ambil jadwal default:", error);
-  }
-}
+    console.error("Error Fetch Kota:", error);
+    // Jika masih error juga, tampilkan strip di UI
+    updateUI({
+      Fajr: "--:--",
+      Dhuhr: "--:--",
+      Asr: "--:--",
+      Maghrib: "--:--",
+      Isha: "--:--",
+    });
 
-// Fungsi Update Judul Lokasi (Hanya SATU versi yang benar)
-function updateLocationTitle(namaKota) {
-  const elemenJudul = document.getElementById("teks-kota");
-  if (elemenJudul) {
-    elemenJudul.textContent = `Jadwal Sholat - ${namaKota}`;
-  } else {
-    // Fallback darurat jika ID teks-kota tidak ketemu
-    const cardHeader = document.querySelector(".prayer-header h3");
-    if (cardHeader) cardHeader.textContent = `Jadwal Sholat - ${namaKota}`;
+    const lokasiStatus = document.getElementById("teks-kota");
+    if (lokasiStatus) lokasiStatus.textContent = "Gagal Memuat Data";
   }
-}
-
-function updateUI(jadwal) {
-  const setTime = (id, time) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = time;
-  };
-  setTime("subuh", jadwal.Fajr);
-  setTime("dzuhur", jadwal.Dhuhr);
-  setTime("ashar", jadwal.Asr);
-  setTime("maghrib", jadwal.Maghrib);
-  setTime("isya", jadwal.Isha);
 }
 // --- LOGIKA FORMULIR PENDAFTARAN (BARU) ---
 const formPendaftaran = document.getElementById("formPendaftaran");
@@ -440,3 +417,117 @@ Mohon info selanjutnya min.
     window.open(urlWA, "_blank");
   });
 }
+// --- INTEGRASI GOOGLE SHEETS UNTUK DONASI ---
+// Ganti URL di bawah ini dengan Link CSV dari Langkah 1
+const GOOGLE_SHEET_CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLa8ynmol4yQaWbP7b1VL48ZAZkA9wpHmEXEK2qb3tDqI0BEYSeCCOXDkGfH7qFwp4th9NcGThRSue/pub?output=csv";
+
+// Fungsi Utama: Load Data
+async function loadDonasiData() {
+  const tabelBody = document.getElementById("tabelDonasiBody");
+  // Cek apakah kita sedang di halaman donasi
+  if (!tabelBody) return;
+
+  try {
+    const response = await fetch(GOOGLE_SHEET_CSV_URL);
+    const dataText = await response.text();
+
+    // Ubah CSV teks menjadi Array Objek
+    const dataDonasiLive = parseCSV(dataText);
+
+    // Jika data berhasil diambil, render ulang tabel & hitung saldo
+    if (dataDonasiLive.length > 0) {
+      console.log("Data donasi berhasil dimuat dari Google Sheets");
+      renderTabelDonasi(dataDonasiLive);
+      hitungTotalDonasi(dataDonasiLive);
+    }
+  } catch (error) {
+    console.error(
+      "Gagal ambil data Google Sheet, menggunakan data bawaan/manual.",
+      error
+    );
+    // Jika gagal, biarkan data hardcoded yang muncul (tidak melakukan apa-apa)
+  }
+}
+
+// Helper: Memecah Text CSV menjadi Array
+function parseCSV(csvText) {
+  const lines = csvText.split("\n");
+  const result = [];
+  // Mulai dari i=1 untuk melewati Header (Baris Judul)
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    // Split berdasarkan koma (Hati-hati: Jangan pakai koma di dalam isi cell excel!)
+    const cols = line.split(",");
+
+    if (cols.length >= 4) {
+      result.push({
+        tanggal: cols[0].trim(),
+        keterangan: cols[1].trim(),
+        jenis: cols[2].trim(), // 'Masuk' atau 'Keluar'
+        jumlah: parseInt(cols[3].trim()) || 0,
+      });
+    }
+  }
+  return result;
+}
+
+// Fungsi Render Tabel (Menimpa tabel lama dengan data baru)
+function renderTabelDonasi(data) {
+  const tbody = document.getElementById("tabelDonasiBody");
+  tbody.innerHTML = ""; // Bersihkan tabel lama
+
+  data.forEach((item) => {
+    const row = document.createElement("tr");
+
+    // Tentukan warna nominal (Hijau=Masuk, Merah=Keluar)
+    const warnaClass =
+      item.jenis.toLowerCase() === "masuk" ? "val-green" : "val-red";
+    const tanda = item.jenis.toLowerCase() === "masuk" ? "+" : "-";
+
+    row.innerHTML = `
+      <td>${item.tanggal}</td>
+      <td>${item.keterangan}</td>
+      <td><span class="badge ${item.jenis.toLowerCase()}">${
+      item.jenis
+    }</span></td>
+      <td style="text-align: right;" class="${warnaClass}">
+        ${tanda} Rp ${item.jumlah.toLocaleString("id-ID")}
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+// Fungsi Hitung Saldo & Total
+function hitungTotalDonasi(data) {
+  let masuk = 0;
+  let keluar = 0;
+
+  data.forEach((item) => {
+    if (item.jenis.toLowerCase() === "masuk") {
+      masuk += item.jumlah;
+    } else if (item.jenis.toLowerCase() === "keluar") {
+      keluar += item.jumlah;
+    }
+  });
+
+  // Update Angka di Card Atas
+  const elMasuk = document.getElementById("totalMasuk");
+  const elKeluar = document.getElementById("totalKeluar");
+  const elSaldo = document.getElementById("totalSaldo");
+
+  if (elMasuk) elMasuk.innerText = `Rp ${masuk.toLocaleString("id-ID")}`;
+  if (elKeluar) elKeluar.innerText = `Rp ${keluar.toLocaleString("id-ID")}`;
+  if (elSaldo)
+    elSaldo.innerText = `Rp ${(masuk - keluar).toLocaleString("id-ID")}`;
+}
+
+// Jalankan fungsi saat halaman selesai dimuat
+document.addEventListener("DOMContentLoaded", () => {
+  // Jalankan fungsi asli dulu (jika ada)
+  // Lalu coba timpa dengan data Google Sheet
+  loadDonasiData();
+});
