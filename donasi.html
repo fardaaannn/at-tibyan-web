@@ -2,6 +2,7 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
+    <meta name="author" content="Fardan Azzuhri" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Donasi Pembangunan - At-Tibyan</title>
     <link rel="stylesheet" href="style.css" />
@@ -30,15 +31,14 @@
         <div class="header-right">
           <button class="theme-toggle" id="themeToggle">
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
               viewBox="0 0 24 24"
+              fill="none"
               stroke="currentColor"
+              stroke-width="2"
             >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="2"
                 d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
               />
             </svg>
@@ -57,7 +57,8 @@
 
         <p>
           Bantu kami mewujudkan fasilitas pendidikan yang lebih baik bagi para
-          santri. Sebagian harta Anda adalah masa depan bagi pendidikan mereka.
+          santri. Transparansi adalah prioritas kami dalam mengelola amanah
+          Anda.
         </p>
 
         <div class="note-box" style="text-align: center">
@@ -129,12 +130,15 @@
           <p>a.n Yayasan At-Tibyan Indonesia</p>
         </div>
 
-        <p>
-          Setelah melakukan transfer, silakan konfirmasi melalui admin kami di
-          halaman kontak.
-        </p>
-
-        <div class="page-navigation">
+        <div
+          class="page-navigation"
+          style="
+            margin-top: 40px;
+            margin-bottom: 40px;
+            border-top: none;
+            padding-top: 0;
+          "
+        >
           <a href="guru.html" class="nav-btn">
             <svg
               viewBox="0 0 24 24"
@@ -160,38 +164,86 @@
             </svg>
           </a>
         </div>
+
+        <h2 style="margin-top: 20px; text-align: center">Laporan Keuangan</h2>
+        <p
+          style="
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 20px;
+          "
+        >
+          Transparansi Dana Umat
+        </p>
+
+        <div class="filter-container">
+          <select id="filterBulan" class="filter-select">
+            <option value="all">Semua Bulan</option>
+            <option value="01">Januari</option>
+            <option value="02">Februari</option>
+            <option value="03">Maret</option>
+            <option value="04">April</option>
+            <option value="05">Mei</option>
+            <option value="06">Juni</option>
+            <option value="07">Juli</option>
+            <option value="08">Agustus</option>
+            <option value="09">September</option>
+            <option value="10">Oktober</option>
+            <option value="11">November</option>
+            <option value="12">Desember</option>
+          </select>
+          <select id="filterTahun" class="filter-select">
+            <option value="all">Semua Tahun</option>
+            <option value="2025" selected>2025</option>
+            <option value="2024">2024</option>
+          </select>
+        </div>
+
+        <div class="financial-summary">
+          <div class="summary-card">
+            <div class="summary-label">Total Masuk</div>
+            <div class="summary-value val-green" id="totalMasuk">Rp 0</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Total Keluar</div>
+            <div class="summary-value val-red" id="totalKeluar">Rp 0</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Saldo (Sesuai Filter)</div>
+            <div class="summary-value val-blue" id="totalSaldo">Rp 0</div>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Keterangan</th>
+                <th>Jenis</th>
+                <th style="text-align: right">Jumlah</th>
+              </tr>
+            </thead>
+            <tbody id="tabelDonasiBody"></tbody>
+          </table>
+          <div
+            id="pesanKosong"
+            style="
+              text-align: center;
+              padding: 20px;
+              color: #888;
+              display: none;
+            "
+          >
+            Tidak ada data transaksi untuk filter ini.
+          </div>
+        </div>
       </article>
     </div>
 
-    <div style="display: none" id="dev-signature">
-      &#67;&#114;&#101;&#97;&#116;&#101;&#100;&#32;&#98;&#121;&#32;&#70;&#97;&#114;&#100;&#97;&#110;&#32;&#65;&#122;&#122;&#117;&#104;&#114;&#105;
-    </div>
-
     <button id="backToTop">Kembali ke Atas</button>
+
     <script src="script.js"></script>
-
-    <script>
-      function salinRekening() {
-        // Ambil teks nomor rekening
-        var norekText = document.getElementById("norek").innerText;
-
-        // Salin ke clipboard
-        navigator.clipboard.writeText(norekText).then(
-          function () {
-            // Tampilkan pesan sukses
-            var alertBox = document.getElementById("copyAlert");
-            alertBox.style.display = "block";
-
-            // Hilangkan pesan setelah 2 detik
-            setTimeout(function () {
-              alertBox.style.display = "none";
-            }, 2000);
-          },
-          function (err) {
-            console.error("Gagal menyalin: ", err);
-          }
-        );
-      }
-    </script>
   </body>
 </html>

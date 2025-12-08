@@ -39,7 +39,7 @@ body {
   padding-bottom: 60px;
 }
 
-/* --- HEADER & NAVIGASI (FIXED ALIGNMENT) --- */
+/* --- HEADER & NAVIGASI --- */
 header {
   position: sticky;
   top: 0;
@@ -48,7 +48,7 @@ header {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-color);
-  height: 52px; /* Tinggi header tetap */
+  height: 52px;
   width: 100%;
 }
 
@@ -56,15 +56,15 @@ header {
   max-width: 980px;
   margin: 0 auto;
   padding: 0 20px;
-  height: 100%; /* Mengisi penuh tinggi 52px */
+  height: 100%;
   display: flex;
-  align-items: center; /* KUNCI: Menengahkan vertikal semua isi header */
+  align-items: center;
   justify-content: space-between;
 }
 
 .header-left-group {
   display: flex;
-  align-items: center; /* Menengahkan logo dan nav */
+  align-items: center;
   height: 100%;
   gap: 30px;
 }
@@ -76,10 +76,10 @@ header {
   text-decoration: none;
   letter-spacing: -0.02em;
   display: flex;
-  align-items: center; /* Pastikan teks logo di tengah container-nya */
+  align-items: center;
   height: 100%;
   position: relative;
-  top: -1px; /* Sedikit koreksi optikal agar sejajar sempurna dengan menu */
+  top: -1px;
 }
 
 nav {
@@ -110,12 +110,10 @@ nav a {
   font-weight: 400;
   opacity: 0.8;
   transition: opacity 0.2s, color 0.2s;
-
-  /* KUNCI PERBAIKAN: */
-  display: flex; /* Menggunakan flexbox di dalam link */
-  align-items: center; /* Memaksa teks benar-benar di tengah vertikal */
-  height: 100%; /* Mengisi tinggi penuh bar */
-  padding: 0 2px; /* Sedikit ruang samping */
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 2px;
 }
 
 nav a:hover,
@@ -184,7 +182,7 @@ li {
   font-weight: 500;
 }
 
-/* Note Box (Abu-abu) */
+/* Note Box & Button */
 .note-box {
   background-color: var(--input-bg);
   color: var(--text-color);
@@ -196,7 +194,6 @@ li {
   font-weight: 500;
 }
 
-/* Button & Links */
 .nav-btn {
   display: inline-flex;
   align-items: center;
@@ -226,7 +223,7 @@ li {
   border-top: 1px solid var(--border-color);
 }
 
-/* Form Styles */
+/* Form Styles (Global) */
 .form-group {
   margin-bottom: 20px;
 }
@@ -265,6 +262,7 @@ textarea:focus {
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s, opacity 0.2s;
+  width: 100%;
 }
 .btn-submit:hover {
   opacity: 0.9;
@@ -301,7 +299,7 @@ textarea:focus {
   width: 0%;
 }
 
-/* Back To Top (Apple Style Font) */
+/* Back To Top */
 #backToTop {
   position: fixed;
   bottom: 30px;
@@ -324,7 +322,6 @@ textarea:focus {
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   z-index: 9999;
   opacity: 0;
-  font-family: var(--font-stack);
 }
 #backToTop.show {
   opacity: 1;
@@ -371,7 +368,7 @@ textarea:focus {
     padding: 10px 0;
     height: auto;
     display: block;
-  } /* Reset flex di mobile */
+  }
   .header-left-group {
     width: 100%;
     justify-content: space-between;
@@ -388,6 +385,7 @@ textarea:focus {
     font-size: 32px;
   }
 }
+
 /* --- KHUSUS HALAMAN BIODATA --- */
 .bio-header {
   display: flex;
@@ -397,7 +395,6 @@ textarea:focus {
   padding-bottom: 30px;
   border-bottom: 1px solid var(--border-color);
 }
-
 .bio-photo {
   width: 120px;
   height: 120px;
@@ -406,20 +403,17 @@ textarea:focus {
   background-color: var(--input-bg);
   border: 1px solid var(--border-color);
 }
-
 .bio-title h1 {
   font-size: 32px;
   margin-bottom: 5px;
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
-
 .bio-title .role {
   font-size: 18px;
   color: #86868b;
   font-weight: 500;
 }
-
 .section-title {
   font-size: 20px;
   font-weight: 600;
@@ -429,7 +423,6 @@ textarea:focus {
   display: flex;
   align-items: center;
 }
-
 .section-title::after {
   content: "";
   flex: 1;
@@ -437,36 +430,30 @@ textarea:focus {
   background: var(--border-color);
   margin-left: 15px;
 }
-
 .data-table {
   width: 100%;
   border-collapse: collapse;
 }
-
 .data-table td {
   padding: 12px 0;
   vertical-align: top;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   font-size: 17px;
 }
-
 .data-table td:first-child {
   width: 160px;
   font-weight: 500;
   color: #86868b;
 }
-
 ul.detail-list {
   padding-left: 20px;
   margin: 0;
 }
-
 ul.detail-list li {
   margin-bottom: 10px;
   line-height: 1.6;
   font-size: 17px;
 }
-
 .sub-category {
   font-weight: 600;
   margin-top: 25px;
@@ -474,8 +461,6 @@ ul.detail-list li {
   color: var(--text-color);
   font-size: 18px;
 }
-
-/* Responsif untuk Biodata */
 @media (max-width: 600px) {
   .bio-header {
     flex-direction: column;
@@ -486,10 +471,167 @@ ul.detail-list li {
     width: 100% !important;
     padding: 4px 0;
   }
-  .data-table td:first-child {
-    margin-top: 15px;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+}
+
+/* --- KHUSUS DONASI (LAPORAN KEUANGAN) --- */
+/* Dipindahkan dari donasi.html */
+.financial-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+  margin-bottom: 25px;
+}
+.summary-card {
+  background: var(--input-bg);
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+}
+.summary-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+.summary-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-color);
+}
+.val-green {
+  color: #28a745;
+}
+.val-red {
+  color: #dc3545;
+}
+.val-blue {
+  color: var(--blue-apple);
+}
+
+.filter-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.filter-select {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 120px;
+}
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 40px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  min-width: 600px;
+}
+th {
+  background: var(--input-bg);
+  text-align: left;
+  padding: 12px 15px;
+  font-weight: 600;
+  color: #666;
+}
+td {
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+tr:last-child td {
+  border-bottom: none;
+}
+.badge {
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge-in {
+  background: #d4edda;
+  color: #155724;
+}
+.badge-out {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* --- KHUSUS KONTAK (MODAL) --- */
+/* Dipindahkan dari kontak.html */
+.custom-modal-overlay {
+  display: none; /* Default tersembunyi */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+}
+.custom-modal-box {
+  background: var(--card-bg);
+  width: 90%;
+  max-width: 320px;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transform: scale(0.9);
+  animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+@keyframes modalPop {
+  to {
+    transform: scale(1);
   }
+}
+.modal-icon {
+  width: 50px;
+  height: 50px;
+  background: var(--input-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px auto;
+  font-size: 24px;
+}
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.modal-message {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+.modal-btn {
+  background: var(--blue-apple);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+}
+.modal-btn:hover {
+  opacity: 0.9;
 }

@@ -2,7 +2,8 @@
 console.log(
   "\x43\x72\x65\x61\x74\x65\x64\x20\x62\x79\x20\x46\x61\x72\x64\x61\x6E\x20\x41\x7A\x7A\x75\x68\x72\x69"
 );
-// --- DATABASE PENCARIAN (Wajib ada agar pencarian jalan) ---
+
+// --- DATABASE PENCARIAN ---
 const databaseMateri = [
   { judul: "Profil Pondok & Sejarah", link: "profil.html", kategori: "Profil" },
   { judul: "Visi dan Misi", link: "profil.html", kategori: "Profil" },
@@ -98,7 +99,7 @@ if (menuToggle && nav) {
   });
 }
 
-// --- 4. LOGIKA PENCARIAN (Hanya jalan di halaman pencarian) ---
+// --- 4. LOGIKA PENCARIAN ---
 const containerHasil = document.getElementById("halamanHasilPencarian");
 if (containerHasil) {
   const params = new URLSearchParams(window.location.search);
@@ -109,7 +110,6 @@ if (containerHasil) {
       "judulPencarian"
     ).innerText = `Hasil: "${keywordURL}"`;
 
-    // Filter data berdasarkan keyword
     const hasil = databaseMateri.filter((item) =>
       item.judul.toLowerCase().includes(keywordURL.toLowerCase())
     );
@@ -117,7 +117,6 @@ if (containerHasil) {
     if (hasil.length > 0) {
       hasil.forEach((item) => {
         const div = document.createElement("div");
-        // Style kartu hasil pencarian
         div.style.marginBottom = "20px";
         div.style.padding = "20px";
         div.style.background = "var(--input-bg)";
@@ -138,9 +137,173 @@ if (containerHasil) {
   }
 }
 
-// --- 5. FUNGSI PENCARIAN GLOBAL (Redirect ke halaman pencarian) ---
-function lakukanPencarian() {
-  // Anda bisa menambahkan input search di header jika mau nanti
-  // Contoh sederhana: let keyword = prompt("Cari apa?");
-  // if(keyword) window.location.href = `pencarian.html?q=${keyword}`;
+// --- 5. LOGIKA HALAMAN DONASI (Laporan Keuangan) ---
+// Cek apakah kita berada di halaman donasi
+const tabelDonasi = document.getElementById("tabelDonasiBody");
+
+if (tabelDonasi) {
+  // DATA TRANSAKSI DUMMY
+  const dataTransaksi = [
+    { tanggal: "01-01-2025", ket: "Saldo Awal", masuk: 5000000, keluar: 0 },
+    { tanggal: "15-01-2025", ket: "Beli Semen", masuk: 0, keluar: 1000000 },
+    {
+      tanggal: "05-02-2025",
+      ket: "Donasi Hamba Allah",
+      masuk: 500000,
+      keluar: 0,
+    },
+    { tanggal: "10-02-2025", ket: "Upah Tukang", masuk: 0, keluar: 1500000 },
+    { tanggal: "01-03-2025", ket: "Infaq Jumat", masuk: 2000000, keluar: 0 },
+  ];
+
+  function renderKeuangan() {
+    const tbody = document.getElementById("tabelDonasiBody");
+    const pesanKosong = document.getElementById("pesanKosong");
+
+    const filterBulan = document.getElementById("filterBulan").value;
+    const filterTahun = document.getElementById("filterTahun").value;
+
+    let totMasuk = 0;
+    let totKeluar = 0;
+    let dataDitampilkan = 0;
+
+    tbody.innerHTML = "";
+
+    // Reverse agar terbaru di atas
+    const dataTerbalik = [...dataTransaksi].reverse();
+
+    dataTerbalik.forEach((item) => {
+      // Format Tanggal: DD-MM-YYYY
+      const parts = item.tanggal.split("-");
+      const bulanData = parts[1];
+      const tahunData = parts[2];
+
+      const cekBulan = filterBulan === "all" || filterBulan === bulanData;
+      const cekTahun = filterTahun === "all" || filterTahun === tahunData;
+
+      if (cekBulan && cekTahun) {
+        dataDitampilkan++;
+        totMasuk += item.masuk;
+        totKeluar += item.keluar;
+
+        let jenisHTML =
+          item.masuk > 0
+            ? '<span class="badge badge-in">Masuk</span>'
+            : '<span class="badge badge-out">Keluar</span>';
+
+        let nominal = item.masuk > 0 ? item.masuk : item.keluar;
+
+        let row = `<tr>
+                    <td>${item.tanggal}</td>
+                    <td>${item.ket}</td>
+                    <td>${jenisHTML}</td>
+                    <td style="text-align: right; font-family: monospace;">Rp ${nominal.toLocaleString(
+                      "id-ID"
+                    )}</td>
+                </tr>`;
+        tbody.innerHTML += row;
+      }
+    });
+
+    // Toggle Pesan Kosong
+    if (pesanKosong) {
+      pesanKosong.style.display = dataDitampilkan === 0 ? "block" : "none";
+    }
+
+    // Update Summary
+    if (document.getElementById("totalMasuk"))
+      document.getElementById("totalMasuk").innerText =
+        "Rp " + totMasuk.toLocaleString("id-ID");
+    if (document.getElementById("totalKeluar"))
+      document.getElementById("totalKeluar").innerText =
+        "Rp " + totKeluar.toLocaleString("id-ID");
+    if (document.getElementById("totalSaldo"))
+      document.getElementById("totalSaldo").innerText =
+        "Rp " + (totMasuk - totKeluar).toLocaleString("id-ID");
+  }
+
+  // Event Listeners Donasi
+  document
+    .getElementById("filterBulan")
+    .addEventListener("change", renderKeuangan);
+  document
+    .getElementById("filterTahun")
+    .addEventListener("change", renderKeuangan);
+
+  // Init
+  renderKeuangan();
+}
+
+// Fungsi Salin Rekening (Global)
+function salinRekening() {
+  const norekEl = document.getElementById("norek");
+  if (!norekEl) return;
+
+  var norekText = norekEl.innerText;
+  navigator.clipboard.writeText(norekText).then(
+    function () {
+      var alertBox = document.getElementById("copyAlert");
+      if (alertBox) {
+        alertBox.style.display = "block";
+        setTimeout(function () {
+          alertBox.style.display = "none";
+        }, 2000);
+      }
+    },
+    function (err) {
+      console.error("Gagal menyalin: ", err);
+    }
+  );
+}
+
+// --- 6. LOGIKA HALAMAN KONTAK (Validasi & Modal) ---
+const kirimPesanBtn = document.getElementById("kirimPesanBtn");
+
+if (kirimPesanBtn) {
+  // Fungsi Modal
+  function tampilkanModal(pesan) {
+    var modal = document.getElementById("customModal");
+    var msg = document.getElementById("modalMessage");
+    if (modal && msg) {
+      msg.innerText = pesan;
+      modal.style.display = "flex";
+    }
+  }
+
+  function tutupModal() {
+    var modal = document.getElementById("customModal");
+    if (modal) modal.style.display = "none";
+  }
+
+  // Expose ke global window agar tombol 'Tutup' di HTML bisa akses
+  window.tutupModal = tutupModal;
+
+  // Event Listener Tombol Kirim
+  kirimPesanBtn.addEventListener("click", function () {
+    var nama = document.getElementById("inputNama").value.trim();
+    var pesan = document.getElementById("inputPesan").value.trim();
+
+    // Logika Validasi
+    if (nama === "" && pesan === "") {
+      tampilkanModal("Mohon isi nama Anda dan pesannya.");
+      return;
+    } else if (nama === "") {
+      tampilkanModal("Mohon isi nama Anda.");
+      return;
+    } else if (pesan === "") {
+      tampilkanModal("Mohon isi pesannya.");
+      return;
+    }
+
+    // Kirim ke WA
+    var nomorAdmin = "6288211924082"; // Ganti sesuai kebutuhan
+    var textEncoded =
+      "Assalamu'alaikum Admin At-Tibyan,%0A%0ASaya *" +
+      nama +
+      "*.%0A" +
+      encodeURIComponent(pesan);
+
+    var urlWA = "https://wa.me/" + nomorAdmin + "?text=" + textEncoded;
+    window.open(urlWA, "_blank");
+  });
 }

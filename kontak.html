@@ -31,15 +31,14 @@
         <div class="header-right">
           <button class="theme-toggle" id="themeToggle">
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
               viewBox="0 0 24 24"
+              fill="none"
               stroke="currentColor"
+              stroke-width="2"
             >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="2"
                 d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
               />
             </svg>
@@ -53,130 +52,75 @@
 
     <div class="container">
       <article>
-        <h1>Kontak & Konfirmasi</h1>
-        <div class="meta">Hubungi Admin • Konfirmasi Donasi</div>
+        <h1>Hubungi Kami</h1>
+        <div class="meta">Kirim pesan langsung ke WhatsApp Admin</div>
 
         <p>
-          Silakan isi form di bawah ini untuk
-          <strong>konfirmasi donasi</strong>, pendaftaran, atau pertanyaan umum
-          seputar program pondok.
+          Silakan isi formulir di bawah ini untuk bertanya seputar pendaftaran,
+          kurikulum, atau informasi lainnya.
         </p>
 
-        <div style="margin-top: 30px">
-          <div class="form-group">
-            <label>Nama Lengkap</label>
-            <input
-              type="text"
-              id="inputNama"
-              placeholder="Masukkan nama Anda..."
-            />
-          </div>
-
-          <div class="form-group">
-            <label>Pesan / Keterangan</label>
-            <textarea
-              id="inputPesan"
-              rows="5"
-              placeholder="Contoh: Saya sudah transfer untuk donasi sebesar Rp..."
-            ></textarea>
-          </div>
-
-          <button class="btn-submit" onclick="kirimKeWA()">
-            Kirim Pesan ke WhatsApp
-          </button>
+        <div class="form-group">
+          <label for="inputNama">Nama Lengkap</label>
+          <input
+            type="text"
+            id="inputNama"
+            placeholder="Contoh: Fardan Azzuhri"
+          />
         </div>
 
-        <div class="note-box" style="text-align: center; margin-top: 40px">
-          <p style="margin-bottom: 15px">Ikuti Media Sosial Kami:</p>
+        <div class="form-group">
+          <label for="inputPesan">Pesan Anda</label>
+          <textarea
+            id="inputPesan"
+            rows="5"
+            placeholder="Tuliskan pertanyaan atau keperluan Anda di sini..."
+          ></textarea>
+        </div>
 
-          <div
-            style="
-              display: flex;
-              gap: 10px;
-              justify-content: center;
-              flex-wrap: wrap;
-            "
-          >
-            <a
-              href="https://www.instagram.com/pondokattibyan?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-              target="_blank"
-              style="
-                text-decoration: none;
-                display: inline-flex;
-                align-items: center;
-                background: linear-gradient(
-                  45deg,
-                  #f09433 0%,
-                  #e6683c 25%,
-                  #dc2743 50%,
-                  #cc2366 75%,
-                  #bc1888 100%
-                );
-                color: white;
-                padding: 12px 24px;
-                border-radius: 50px;
-                font-weight: 600;
-                font-size: 15px;
-                transition: transform 0.2s;
-              "
-            >
-              Instagram
-            </a>
+        <button type="button" class="btn-submit" id="kirimPesanBtn">
+          Kirim ke WhatsApp
+        </button>
 
-            <a
-              href="https://www.youtube.com/@MuallimMYusuf"
-              target="_blank"
-              style="
-                text-decoration: none;
-                display: inline-flex;
-                align-items: center;
-                background: #ff0000;
-                color: white;
-                padding: 12px 24px;
-                border-radius: 50px;
-                font-weight: 600;
-                font-size: 15px;
-                transition: transform 0.2s;
-              "
+        <div class="page-navigation">
+          <a href="donasi.html" class="nav-btn">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              style="margin-right: 8px"
             >
-              YouTube
-            </a>
-          </div>
+              <path d="M15 19l-7-7 7-7" />
+            </svg>
+            Kembali ke Donasi
+          </a>
+          <a href="index.html" class="nav-btn">
+            Ke Beranda
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              style="margin-left: 8px"
+            >
+              <path d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
         </div>
       </article>
     </div>
 
-    <div style="display: none" id="dev-signature">
-      &#67;&#114;&#101;&#97;&#116;&#101;&#100;&#32;&#98;&#121;&#32;&#70;&#97;&#114;&#100;&#97;&#110;&#32;&#65;&#122;&#122;&#117;&#104;&#114;&#105;
+    <div id="customModal" class="custom-modal-overlay">
+      <div class="custom-modal-box">
+        <div class="modal-title">Notifikasi</div>
+        <div class="modal-message" id="modalMessage">Pesan error disini...</div>
+        <button class="modal-btn" onclick="tutupModal()">Tutup</button>
+      </div>
     </div>
 
     <button id="backToTop">Kembali ke Atas</button>
+
     <script src="script.js"></script>
-
-    <script>
-      function kirimKeWA() {
-        // Ambil nilai dari input
-        var nama = document.getElementById("inputNama").value;
-        var pesan = document.getElementById("inputPesan").value;
-        var nomorAdmin = "6288211924082";
-
-        // Validasi jika kosong
-        if (nama === "" || pesan === "") {
-          alert("Mohon isi Nama dan Pesan terlebih dahulu.");
-          return;
-        }
-
-        // Format pesan untuk WhatsApp
-        var textEncoded =
-          "Assalamu'alaikum Admin At-Tibyan,%0A%0ASaya *" +
-          nama +
-          "*.%0A" +
-          pesan;
-
-        // Buka link WhatsApp
-        var url = "https://wa.me/" + nomorAdmin + "?text=" + textEncoded;
-        window.open(url, "_blank");
-      }
-    </script>
   </body>
 </html>
