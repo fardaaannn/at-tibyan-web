@@ -3,35 +3,6 @@ console.log(
   "\x43\x72\x65\x61\x74\x65\x64\x20\x62\x79\x20\x46\x61\x72\x64\x61\x6E\x20\x41\x7A\x7A\x75\x68\x72\x69"
 );
 
-// --- DATABASE PENCARIAN ---
-const databaseMateri = [
-  { judul: "Profil Pondok & Sejarah", link: "profil.html", kategori: "Profil" },
-  { judul: "Visi dan Misi", link: "profil.html", kategori: "Profil" },
-  { judul: "Alamat & Lokasi Maps", link: "alamat.html", kategori: "Kontak" },
-  { judul: "Daftar Guru & Pengurus", link: "guru.html", kategori: "Guru" },
-  {
-    judul: "Biodata Dr. Mu'allim Yusuf Hidayat",
-    link: "biodata-ketua.html",
-    kategori: "Guru",
-  },
-  {
-    judul: "Donasi Pembangunan & Rekening",
-    link: "donasi.html",
-    kategori: "Donasi",
-  },
-  {
-    judul: "Kontak WhatsApp & Form Pesan",
-    link: "kontak.html",
-    kategori: "Kontak",
-  },
-  { judul: "Pendaftaran Santri Baru", link: "index.html", kategori: "Beranda" },
-  {
-    judul: "Program Unggulan Tahfidz",
-    link: "index.html",
-    kategori: "Beranda",
-  },
-];
-
 // --- 1. DARK MODE ---
 const themeToggle = document.getElementById("themeToggle");
 const body = document.body;
@@ -137,91 +108,137 @@ if (containerHasil) {
   }
 }
 
-// --- 5. LOGIKA HALAMAN DONASI (Laporan Keuangan) ---
+// --- 5. LOGIKA HALAMAN DONASI & GOOGLE SHEETS ---
+// Variabel Global untuk menyimpan data
+let globalDataDonasi = [];
+
 const tabelDonasi = document.getElementById("tabelDonasiBody");
+const GOOGLE_SHEET_CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRkao52TUQ3llogGF6g9TV_N-ERGmwaI9GqqR5yq6D_R0pKUvIg7VQcFwTgsQ_7ic074sehSB1vg4AM/pub?output=csv";
 
-if (tabelDonasi) {
-  const dataTransaksi = [
-    { tanggal: "01-01-2025", ket: "Saldo Awal", masuk: 5000000, keluar: 0 },
-    { tanggal: "15-01-2025", ket: "Beli Semen", masuk: 0, keluar: 1000000 },
-    {
-      tanggal: "05-02-2025",
-      ket: "Donasi Hamba Allah",
-      masuk: 500000,
-      keluar: 0,
-    },
-    { tanggal: "10-02-2025", ket: "Upah Tukang", masuk: 0, keluar: 1500000 },
-    { tanggal: "01-03-2025", ket: "Infaq Jumat", masuk: 2000000, keluar: 0 },
-  ];
+// Fungsi Utama: Load Data
+async function loadDonasiData() {
+  if (!tabelDonasi) return;
 
-  function renderKeuangan() {
-    const tbody = document.getElementById("tabelDonasiBody");
-    const pesanKosong = document.getElementById("pesanKosong");
-    const filterBulan = document.getElementById("filterBulan").value;
-    const filterTahun = document.getElementById("filterTahun").value;
+  try {
+    const response = await fetch(GOOGLE_SHEET_CSV_URL);
+    const dataText = await response.text();
 
-    let totMasuk = 0;
-    let totKeluar = 0;
-    let dataDitampilkan = 0;
+    // 1. Simpan data ke variabel global
+    globalDataDonasi = parseCSV(dataText);
 
-    tbody.innerHTML = "";
-    const dataTerbalik = [...dataTransaksi].reverse();
-
-    dataTerbalik.forEach((item) => {
-      const parts = item.tanggal.split("-");
-      const bulanData = parts[1];
-      const tahunData = parts[2];
-
-      const cekBulan = filterBulan === "all" || filterBulan === bulanData;
-      const cekTahun = filterTahun === "all" || filterTahun === tahunData;
-
-      if (cekBulan && cekTahun) {
-        dataDitampilkan++;
-        totMasuk += item.masuk;
-        totKeluar += item.keluar;
-
-        let jenisHTML =
-          item.masuk > 0
-            ? '<span class="badge badge-in">Masuk</span>'
-            : '<span class="badge badge-out">Keluar</span>';
-
-        let nominal = item.masuk > 0 ? item.masuk : item.keluar;
-
-        let row = `<tr>
-                    <td>${item.tanggal}</td>
-                    <td>${item.ket}</td>
-                    <td>${jenisHTML}</td>
-                    <td style="text-align: right; font-family: monospace;">Rp ${nominal.toLocaleString(
-                      "id-ID"
-                    )}</td>
-                </tr>`;
-        tbody.innerHTML += row;
-      }
-    });
-
-    if (pesanKosong) {
-      pesanKosong.style.display = dataDitampilkan === 0 ? "block" : "none";
+    // 2. Jika berhasil, render
+    if (globalDataDonasi.length > 0) {
+      console.log(
+        "Data donasi berhasil dimuat:",
+        globalDataDonasi.length,
+        "baris"
+      );
+      applyFilterAndRender();
     }
+  } catch (error) {
+    console.error("Gagal ambil data Google Sheet.", error);
+  }
+}
 
-    if (document.getElementById("totalMasuk"))
-      document.getElementById("totalMasuk").innerText =
-        "Rp " + totMasuk.toLocaleString("id-ID");
-    if (document.getElementById("totalKeluar"))
-      document.getElementById("totalKeluar").innerText =
-        "Rp " + totKeluar.toLocaleString("id-ID");
-    if (document.getElementById("totalSaldo"))
-      document.getElementById("totalSaldo").innerText =
-        "Rp " + (totMasuk - totKeluar).toLocaleString("id-ID");
+// Fungsi Parsing CSV
+function parseCSV(csvText) {
+  const lines = csvText.split("\n");
+  const result = [];
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    // Split koma
+    const cols = line.split(",");
+
+    if (cols.length >= 4) {
+      result.push({
+        tanggal: cols[0].trim(), // Format bisa DD/MM/YYYY atau DD-MM-YYYY
+        keterangan: cols[1].trim(),
+        jenis: cols[2].trim(),
+        jumlah: parseInt(cols[3].trim()) || 0,
+      });
+    }
+  }
+  return result;
+}
+
+// FUNGSI UTAMA: Gabungan Filter & Render
+function applyFilterAndRender() {
+  const tbody = document.getElementById("tabelDonasiBody");
+  const pesanKosong = document.getElementById("pesanKosong");
+
+  // Ambil nilai Filter
+  const filterBulan = document.getElementById("filterBulan").value; // "01", "02", ... "all"
+  const filterTahun = document.getElementById("filterTahun").value; // "2025", ... "all"
+
+  let totMasuk = 0;
+  let totKeluar = 0;
+  let dataDitampilkan = 0;
+
+  tbody.innerHTML = ""; // Bersihkan tabel
+
+  // Loop data global
+  globalDataDonasi.forEach((item) => {
+    // Deteksi Format Tanggal (Bisa "/" atau "-")
+    let separator = item.tanggal.includes("/") ? "/" : "-";
+    const parts = item.tanggal.split(separator); // [DD, MM, YYYY]
+
+    if (parts.length < 3) return;
+
+    const bulanData = parts[1]; // Index 1 = Bulan
+    const tahunData = parts[2]; // Index 2 = Tahun
+
+    // Logika Filter
+    const cekBulan = filterBulan === "all" || filterBulan === bulanData;
+    const cekTahun = filterTahun === "all" || filterTahun === tahunData;
+
+    if (cekBulan && cekTahun) {
+      dataDitampilkan++;
+
+      // Hitung Total
+      if (item.jenis.toLowerCase() === "masuk") {
+        totMasuk += item.jumlah;
+      } else {
+        totKeluar += item.jumlah;
+      }
+
+      // Render Baris
+      const warnaClass =
+        item.jenis.toLowerCase() === "masuk" ? "val-green" : "val-red";
+      const tanda = item.jenis.toLowerCase() === "masuk" ? "+" : "-";
+      const jenisBadge =
+        item.jenis.toLowerCase() === "masuk" ? "badge-in" : "badge-out";
+
+      const row = `<tr>
+          <td>${item.tanggal}</td>
+          <td>${item.keterangan}</td>
+          <td><span class="badge ${jenisBadge}">${item.jenis}</span></td>
+          <td style="text-align: right;" class="${warnaClass}">
+            ${tanda} Rp ${item.jumlah.toLocaleString("id-ID")}
+          </td>
+      </tr>`;
+
+      tbody.innerHTML += row;
+    }
+  });
+
+  // Tampilkan/Sembunyikan Pesan Kosong (PERBAIKAN UTAMA)
+  if (pesanKosong) {
+    pesanKosong.style.display = dataDitampilkan === 0 ? "block" : "none";
   }
 
-  document
-    .getElementById("filterBulan")
-    .addEventListener("change", renderKeuangan);
-  document
-    .getElementById("filterTahun")
-    .addEventListener("change", renderKeuangan);
-
-  renderKeuangan();
+  // Update Kartu Total
+  if (document.getElementById("totalMasuk"))
+    document.getElementById("totalMasuk").innerText =
+      "Rp " + totMasuk.toLocaleString("id-ID");
+  if (document.getElementById("totalKeluar"))
+    document.getElementById("totalKeluar").innerText =
+      "Rp " + totKeluar.toLocaleString("id-ID");
+  if (document.getElementById("totalSaldo"))
+    document.getElementById("totalSaldo").innerText =
+      "Rp " + (totMasuk - totKeluar).toLocaleString("id-ID");
 }
 
 function salinRekening() {
@@ -243,6 +260,31 @@ function salinRekening() {
     }
   );
 }
+
+// --- SETUP EVENT LISTENER ---
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. UPDATE OPSI TAHUN SECARA OTOMATIS (Tanpa ubah HTML)
+  const filterTahun = document.getElementById("filterTahun");
+  if (filterTahun) {
+    filterTahun.innerHTML = `
+      <option value="all">Semua Tahun</option>
+      <option value="2025">2025</option>
+      <option value="2026">2026</option>
+    `;
+  }
+
+  // 2. Load Data Google Sheet
+  loadDonasiData();
+
+  // 3. Pasang Listener Filter
+  const filterBulanEl = document.getElementById("filterBulan");
+  if (filterBulanEl)
+    filterBulanEl.addEventListener("change", applyFilterAndRender);
+  if (filterTahun) filterTahun.addEventListener("change", applyFilterAndRender);
+
+  // 4. Init Jadwal Sholat
+  initJadwalSholat();
+});
 
 // --- 6. LOGIKA HALAMAN KONTAK (Validasi & Modal) ---
 const kirimPesanBtn = document.getElementById("kirimPesanBtn");
@@ -295,35 +337,26 @@ if (kirimPesanBtn) {
 }
 
 // --- SISTEM JADWAL SHOLAT (ANTI-GAGAL) ---
-
-document.addEventListener("DOMContentLoaded", () => {
-  // Langsung jalankan saat web dibuka
-  initJadwalSholat();
-});
-
 function initJadwalSholat() {
   const lokasiStatus = document.getElementById("teks-kota");
   if (lokasiStatus) lokasiStatus.textContent = "Mencari Lokasi...";
 
-  // 1. Pasang Timeout (Batas Waktu)
-  // Jika dalam 5 detik GPS belum dapat, paksa load Jakarta
   const timeoutGPS = setTimeout(() => {
     console.warn("GPS kelamaan, beralih ke Default (Jakarta)");
     getJadwalByCity("Jakarta", "Indonesia");
-  }, 5000); // 5000 ms = 5 detik
+  }, 5000);
 
-  // 2. Coba Ambil GPS
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        clearTimeout(timeoutGPS); // Batalkan timeout jika GPS berhasil
+        clearTimeout(timeoutGPS);
         const lat = position.coords.latitude;
         const long = position.coords.longitude;
         getJadwalByCoords(lat, long);
         getCityName(lat, long);
       },
       (error) => {
-        clearTimeout(timeoutGPS); // Batalkan timeout jika Error
+        clearTimeout(timeoutGPS);
         console.warn("Akses lokasi ditolak/error, load Default.");
         getJadwalByCity("Jakarta", "Indonesia");
       }
@@ -334,12 +367,9 @@ function initJadwalSholat() {
   }
 }
 
-// FUNGSI 1: Ambil via Koordinat (Paling Akurat)
 async function getJadwalByCoords(lat, long) {
   try {
-    // Trik: Gunakan Timestamp (Date.now) agar tidak error format tanggal
     const timestamp = Math.floor(Date.now() / 1000);
-    // WAJIB HTTPS
     const url = `https://api.aladhan.com/v1/timings/${timestamp}?latitude=${lat}&longitude=${long}&method=20`;
 
     const response = await fetch(url);
@@ -353,15 +383,13 @@ async function getJadwalByCoords(lat, long) {
     }
   } catch (error) {
     console.error("Error Fetch GPS:", error);
-    getJadwalByCity("Jakarta", "Indonesia"); // Fallback terakhir
+    getJadwalByCity("Jakarta", "Indonesia");
   }
 }
 
-// FUNGSI 2: Ambil via Nama Kota (Fallback/Default)
 async function getJadwalByCity(city, country) {
   try {
     updateLocationTitle(city);
-    // Menggunakan endpoint timingsByCity
     const url = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=20`;
 
     const response = await fetch(url);
@@ -372,17 +400,13 @@ async function getJadwalByCity(city, country) {
     }
   } catch (error) {
     console.error("Error Fetch Kota:", error);
-    // Jika masih gagal, tampilkan strip agar tidak jelek
     updateUI({ Fajr: "-", Dhuhr: "-", Asr: "-", Maghrib: "-", Isha: "-" });
     const status = document.getElementById("teks-kota");
     if (status) status.textContent = "Gagal Memuat Data";
   }
 }
 
-// FUNGSI 3: Update Tampilan HTML
 function updateUI(timings) {
-  // Mapping ID HTML ke Key JSON API
-  // Pastikan ID di index.html Anda: 'shubuh', 'dzuhur', 'ashar', 'maghrib', 'isya'
   const idMap = {
     shubuh: timings.Fajr,
     dzuhur: timings.Dhuhr,
@@ -399,7 +423,6 @@ function updateUI(timings) {
   }
 }
 
-// FUNGSI 4: Update Judul Lokasi & Nama Kota (Reverse Geocoding)
 function updateLocationTitle(text) {
   const el = document.getElementById("teks-kota");
   if (el) el.textContent = text;
@@ -407,7 +430,6 @@ function updateLocationTitle(text) {
 
 async function getCityName(lat, long) {
   try {
-    // API Gratis BigDataCloud untuk nama kota (lebih cepat dari Google)
     const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${long}&localityLanguage=id`;
     const response = await fetch(url);
     const data = await response.json();
@@ -425,7 +447,6 @@ if (formPendaftaran) {
   formPendaftaran.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    // Ambil nilai input
     const nama = document.getElementById("namaLengkap").value;
     const ttl = document.getElementById("tempatTanggalLahir").value;
     const wali = document.getElementById("namaWali").value;
@@ -433,10 +454,8 @@ if (formPendaftaran) {
     const program = document.getElementById("programPilihan").value;
     const wa = document.getElementById("noWhatsapp").value;
 
-    // Nomor Admin (GANTI DENGAN NOMOR ANDA, format 628...)
     const nomorAdmin = "6281234567890";
 
-    // Format Pesan
     const pesan = `
 *PENDAFTARAN SANTRI BARU AT-TIBYAN*
 ---------------------------
@@ -450,124 +469,9 @@ No WA: ${wa}
 Mohon info selanjutnya min.
     `.trim();
 
-    // Buka WhatsApp
     const urlWA = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(
       pesan
     )}`;
     window.open(urlWA, "_blank");
   });
 }
-// --- INTEGRASI GOOGLE SHEETS UNTUK DONASI ---
-// Ganti URL di bawah ini dengan Link CSV dari Langkah 1
-const GOOGLE_SHEET_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRkao52TUQ3llogGF6g9TV_N-ERGmwaI9GqqR5yq6D_R0pKUvIg7VQcFwTgsQ_7ic074sehSB1vg4AM/pub?output=csv";
-
-// Fungsi Utama: Load Data
-async function loadDonasiData() {
-  const tabelBody = document.getElementById("tabelDonasiBody");
-  // Cek apakah kita sedang di halaman donasi
-  if (!tabelBody) return;
-
-  try {
-    const response = await fetch(GOOGLE_SHEET_CSV_URL);
-    const dataText = await response.text();
-
-    // Ubah CSV teks menjadi Array Objek
-    const dataDonasiLive = parseCSV(dataText);
-
-    // Jika data berhasil diambil, render ulang tabel & hitung saldo
-    if (dataDonasiLive.length > 0) {
-      console.log("Data donasi berhasil dimuat dari Google Sheets");
-      renderTabelDonasi(dataDonasiLive);
-      hitungTotalDonasi(dataDonasiLive);
-    }
-  } catch (error) {
-    console.error(
-      "Gagal ambil data Google Sheet, menggunakan data bawaan/manual.",
-      error
-    );
-    // Jika gagal, biarkan data hardcoded yang muncul (tidak melakukan apa-apa)
-  }
-}
-
-// Helper: Memecah Text CSV menjadi Array
-function parseCSV(csvText) {
-  const lines = csvText.split("\n");
-  const result = [];
-  // Mulai dari i=1 untuk melewati Header (Baris Judul)
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
-
-    // Split berdasarkan koma (Hati-hati: Jangan pakai koma di dalam isi cell excel!)
-    const cols = line.split(",");
-
-    if (cols.length >= 4) {
-      result.push({
-        tanggal: cols[0].trim(),
-        keterangan: cols[1].trim(),
-        jenis: cols[2].trim(), // 'Masuk' atau 'Keluar'
-        jumlah: parseInt(cols[3].trim()) || 0,
-      });
-    }
-  }
-  return result;
-}
-
-// Fungsi Render Tabel (Menimpa tabel lama dengan data baru)
-function renderTabelDonasi(data) {
-  const tbody = document.getElementById("tabelDonasiBody");
-  tbody.innerHTML = ""; // Bersihkan tabel lama
-
-  data.forEach((item) => {
-    const row = document.createElement("tr");
-
-    // Tentukan warna nominal (Hijau=Masuk, Merah=Keluar)
-    const warnaClass =
-      item.jenis.toLowerCase() === "masuk" ? "val-green" : "val-red";
-    const tanda = item.jenis.toLowerCase() === "masuk" ? "+" : "-";
-
-    row.innerHTML = `
-      <td>${item.tanggal}</td>
-      <td>${item.keterangan}</td>
-      <td><span class="badge ${item.jenis.toLowerCase()}">${
-      item.jenis
-    }</span></td>
-      <td style="text-align: right;" class="${warnaClass}">
-        ${tanda} Rp ${item.jumlah.toLocaleString("id-ID")}
-      </td>
-    `;
-    tbody.appendChild(row);
-  });
-}
-
-// Fungsi Hitung Saldo & Total
-function hitungTotalDonasi(data) {
-  let masuk = 0;
-  let keluar = 0;
-
-  data.forEach((item) => {
-    if (item.jenis.toLowerCase() === "masuk") {
-      masuk += item.jumlah;
-    } else if (item.jenis.toLowerCase() === "keluar") {
-      keluar += item.jumlah;
-    }
-  });
-
-  // Update Angka di Card Atas
-  const elMasuk = document.getElementById("totalMasuk");
-  const elKeluar = document.getElementById("totalKeluar");
-  const elSaldo = document.getElementById("totalSaldo");
-
-  if (elMasuk) elMasuk.innerText = `Rp ${masuk.toLocaleString("id-ID")}`;
-  if (elKeluar) elKeluar.innerText = `Rp ${keluar.toLocaleString("id-ID")}`;
-  if (elSaldo)
-    elSaldo.innerText = `Rp ${(masuk - keluar).toLocaleString("id-ID")}`;
-}
-
-// Jalankan fungsi saat halaman selesai dimuat
-document.addEventListener("DOMContentLoaded", () => {
-  // Jalankan fungsi asli dulu (jika ada)
-  // Lalu coba timpa dengan data Google Sheet
-  loadDonasiData();
-});
