@@ -294,89 +294,129 @@ if (kirimPesanBtn) {
   });
 }
 
-// --- 1. Fungsi Mendapatkan Lokasi (GPS) ---
-function getLocation() {
+// --- SISTEM JADWAL SHOLAT (ANTI-GAGAL) ---
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Langsung jalankan saat web dibuka
+  initJadwalSholat();
+});
+
+function initJadwalSholat() {
   const lokasiStatus = document.getElementById("teks-kota");
+  if (lokasiStatus) lokasiStatus.textContent = "Mencari Lokasi...";
 
+  // 1. Pasang Timeout (Batas Waktu)
+  // Jika dalam 5 detik GPS belum dapat, paksa load Jakarta
+  const timeoutGPS = setTimeout(() => {
+    console.warn("GPS kelamaan, beralih ke Default (Jakarta)");
+    getJadwalByCity("Jakarta", "Indonesia");
+  }, 5000); // 5000 ms = 5 detik
+
+  // 2. Coba Ambil GPS
   if (navigator.geolocation) {
-    // Ubah teks jadi loading
-    if (lokasiStatus) lokasiStatus.textContent = "Mencari Lokasi...";
-
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        // SUKSES: Ambil koordinat
+        clearTimeout(timeoutGPS); // Batalkan timeout jika GPS berhasil
         const lat = position.coords.latitude;
         const long = position.coords.longitude;
-        getJadwalSholat(lat, long);
+        getJadwalByCoords(lat, long);
         getCityName(lat, long);
       },
       (error) => {
-        // GAGAL: User menolak atau GPS mati
-        console.warn("GPS Error/Ditolak, menggunakan default Jakarta.");
+        clearTimeout(timeoutGPS); // Batalkan timeout jika Error
+        console.warn("Akses lokasi ditolak/error, load Default.");
         getJadwalByCity("Jakarta", "Indonesia");
       }
     );
   } else {
-    // Browser tidak support GPS
-    console.warn("Browser tidak support Geolocation.");
+    clearTimeout(timeoutGPS);
     getJadwalByCity("Jakarta", "Indonesia");
   }
 }
 
-// --- 2. Ambil Jadwal via Koordinat (GPS) ---
-async function getJadwalSholat(latitude, longitude) {
+// FUNGSI 1: Ambil via Koordinat (Paling Akurat)
+async function getJadwalByCoords(lat, long) {
   try {
-    // LANGSUNG ke API Aladhan (Tanpa Proxy) agar lebih cepat & stabil
-    // Menggunakan timestamp hari ini
-    const today = Math.floor(Date.now() / 1000);
-    const url = `https://api.aladhan.com/v1/timings/${today}?latitude=${latitude}&longitude=${longitude}&method=20`;
+    // Trik: Gunakan Timestamp (Date.now) agar tidak error format tanggal
+    const timestamp = Math.floor(Date.now() / 1000);
+    // WAJIB HTTPS
+    const url = `https://api.aladhan.com/v1/timings/${timestamp}?latitude=${lat}&longitude=${long}&method=20`;
 
     const response = await fetch(url);
-    if (!response.ok) throw new Error("Gagal mengambil data API");
-
     const result = await response.json();
 
-    if (result.data && result.data.timings) {
+    if (result.code === 200 && result.data) {
       updateUI(result.data.timings);
-      // Simpan koordinat terakhir jika perlu
       updateLocationTitle("Sesuai Lokasi Anda");
+    } else {
+      throw new Error("Data API kosong");
     }
   } catch (error) {
-    console.error("Error Fetch Koordinat:", error);
-    // Jika gagal koordinat, coba fallback ke Jakarta
-    getJadwalByCity("Jakarta", "Indonesia");
+    console.error("Error Fetch GPS:", error);
+    getJadwalByCity("Jakarta", "Indonesia"); // Fallback terakhir
   }
 }
 
-// --- 3. Ambil Jadwal via Nama Kota (Default/Fallback) ---
+// FUNGSI 2: Ambil via Nama Kota (Fallback/Default)
 async function getJadwalByCity(city, country) {
   try {
     updateLocationTitle(city);
-
-    // LANGSUNG ke API Aladhan (Tanpa Proxy)
+    // Menggunakan endpoint timingsByCity
     const url = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=20`;
 
     const response = await fetch(url);
-    if (!response.ok) throw new Error("Gagal mengambil data Kota");
-
     const result = await response.json();
 
-    if (result.data && result.data.timings) {
+    if (result.code === 200 && result.data) {
       updateUI(result.data.timings);
     }
   } catch (error) {
     console.error("Error Fetch Kota:", error);
-    // Jika masih error juga, tampilkan strip di UI
-    updateUI({
-      Fajr: "--:--",
-      Dhuhr: "--:--",
-      Asr: "--:--",
-      Maghrib: "--:--",
-      Isha: "--:--",
-    });
+    // Jika masih gagal, tampilkan strip agar tidak jelek
+    updateUI({ Fajr: "-", Dhuhr: "-", Asr: "-", Maghrib: "-", Isha: "-" });
+    const status = document.getElementById("teks-kota");
+    if (status) status.textContent = "Gagal Memuat Data";
+  }
+}
 
-    const lokasiStatus = document.getElementById("teks-kota");
-    if (lokasiStatus) lokasiStatus.textContent = "Gagal Memuat Data";
+// FUNGSI 3: Update Tampilan HTML
+function updateUI(timings) {
+  // Mapping ID HTML ke Key JSON API
+  // Pastikan ID di index.html Anda: 'shubuh', 'dzuhur', 'ashar', 'maghrib', 'isya'
+  const idMap = {
+    shubuh: timings.Fajr,
+    dzuhur: timings.Dhuhr,
+    ashar: timings.Asr,
+    maghrib: timings.Maghrib,
+    isya: timings.Isha,
+  };
+
+  for (const [id, waktu] of Object.entries(idMap)) {
+    const element = document.getElementById(id);
+    if (element) {
+      element.textContent = waktu;
+    }
+  }
+}
+
+// FUNGSI 4: Update Judul Lokasi & Nama Kota (Reverse Geocoding)
+function updateLocationTitle(text) {
+  const el = document.getElementById("teks-kota");
+  if (el) el.textContent = text;
+}
+
+async function getCityName(lat, long) {
+  try {
+    // API Gratis BigDataCloud untuk nama kota (lebih cepat dari Google)
+    const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${long}&localityLanguage=id`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.city || data.locality) {
+      updateLocationTitle(data.city || data.locality);
+    }
+  } catch (e) {
+    console.log("Gagal ambil nama kota, biarkan default.");
   }
 }
 // --- LOGIKA FORMULIR PENDAFTARAN (BARU) ---
@@ -420,7 +460,7 @@ Mohon info selanjutnya min.
 // --- INTEGRASI GOOGLE SHEETS UNTUK DONASI ---
 // Ganti URL di bawah ini dengan Link CSV dari Langkah 1
 const GOOGLE_SHEET_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLa8ynmol4yQaWbP7b1VL48ZAZkA9wpHmEXEK2qb3tDqI0BEYSeCCOXDkGfH7qFwp4th9NcGThRSue/pub?output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRkao52TUQ3llogGF6g9TV_N-ERGmwaI9GqqR5yq6D_R0pKUvIg7VQcFwTgsQ_7ic074sehSB1vg4AM/pub?output=csv";
 
 // Fungsi Utama: Load Data
 async function loadDonasiData() {
