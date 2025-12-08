@@ -691,3 +691,85 @@ tr:last-child td {
   );
   box-shadow: 0 4px 12px rgba(220, 39, 67, 0.2);
 }
+/* --- WIDGET JADWAL SHOLAT --- */
+.prayer-card {
+  background: var(--blue-apple);
+  color: white;
+  padding: 20px;
+  border-radius: 16px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efek hiasan background (opsional) */
+.prayer-card::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.prayer-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.95;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 10px;
+}
+
+.prayer-grid {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  gap: 10px;
+}
+
+.prayer-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.p-label {
+  font-size: 12px;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.p-time {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: monospace; /* Agar angka sejajar */
+}
+
+/* Responsif di HP */
+@media (max-width: 600px) {
+  .prayer-grid {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .prayer-item {
+    min-width: 30%; /* Agar jadi 3 kolom per baris */
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 5px;
+    border-radius: 8px;
+  }
+  .prayer-header {
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+  }
+}

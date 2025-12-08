@@ -141,7 +141,6 @@ if (containerHasil) {
 const tabelDonasi = document.getElementById("tabelDonasiBody");
 
 if (tabelDonasi) {
-  // DATA TRANSAKSI DUMMY
   const dataTransaksi = [
     { tanggal: "01-01-2025", ket: "Saldo Awal", masuk: 5000000, keluar: 0 },
     { tanggal: "15-01-2025", ket: "Beli Semen", masuk: 0, keluar: 1000000 },
@@ -158,7 +157,6 @@ if (tabelDonasi) {
   function renderKeuangan() {
     const tbody = document.getElementById("tabelDonasiBody");
     const pesanKosong = document.getElementById("pesanKosong");
-
     const filterBulan = document.getElementById("filterBulan").value;
     const filterTahun = document.getElementById("filterTahun").value;
 
@@ -250,7 +248,6 @@ function salinRekening() {
 const kirimPesanBtn = document.getElementById("kirimPesanBtn");
 
 if (kirimPesanBtn) {
-  // Fungsi Modal
   function tampilkanModal(pesan) {
     var modal = document.getElementById("customModal");
     var msg = document.getElementById("modalMessage");
@@ -264,17 +261,13 @@ if (kirimPesanBtn) {
     var modal = document.getElementById("customModal");
     if (modal) modal.style.display = "none";
   }
-
   window.tutupModal = tutupModal;
 
-  // Event Listener Tombol Kirim
   kirimPesanBtn.addEventListener("click", function () {
     var nama = document.getElementById("inputNama").value.trim();
     var pesan = document.getElementById("inputPesan").value.trim();
-    // Ambil Nilai Subjek (NEW)
     var subjek = document.getElementById("inputSubjek").value;
 
-    // Logika Validasi
     if (nama === "" && pesan === "") {
       tampilkanModal("Mohon isi nama Anda dan pesannya.");
       return;
@@ -286,7 +279,6 @@ if (kirimPesanBtn) {
       return;
     }
 
-    // Kirim ke WA (Dengan Format Subjek)
     var nomorAdmin = "6288211924082";
     var textEncoded =
       "Assalamu'alaikum Admin At-Tibyan,%0A%0ASaya *" +
@@ -300,4 +292,113 @@ if (kirimPesanBtn) {
     var urlWA = "https://wa.me/" + nomorAdmin + "?text=" + textEncoded;
     window.open(urlWA, "_blank");
   });
+}
+
+// --- 7. FITUR JADWAL SHOLAT (Fixed by Gemini) ---
+const DEFAULT_CITY = "Depok";
+const DEFAULT_COUNTRY = "Indonesia";
+
+document.addEventListener("DOMContentLoaded", () => {
+  checkLocationAndFetch();
+});
+
+function checkLocationAndFetch() {
+  // Menggunakan elemen 'teks-kota' yang benar
+  const statusLokasi = document.getElementById("teks-kota");
+
+  if (navigator.geolocation) {
+    if (statusLokasi) statusLokasi.textContent = "Mendeteksi Lokasi...";
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const long = position.coords.longitude;
+        console.log(`Lokasi ditemukan: ${lat}, ${long}`);
+
+        getJadwalByCoordinates(lat, long);
+        getCityName(lat, long);
+      },
+      (error) => {
+        console.warn("Izin lokasi ditolak/error, kembali ke default.", error);
+        getJadwalByCity(DEFAULT_CITY, DEFAULT_COUNTRY);
+      }
+    );
+  } else {
+    getJadwalByCity(DEFAULT_CITY, DEFAULT_COUNTRY);
+  }
+}
+
+async function getJadwalByCoordinates(lat, long) {
+  try {
+    const originalUrl = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${long}&method=20`;
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(
+      originalUrl
+    )}`;
+
+    const response = await fetch(proxyUrl);
+    const result = await response.json();
+
+    if (result.data && result.data.timings) {
+      updateUI(result.data.timings);
+    }
+  } catch (error) {
+    console.error("Gagal ambil jadwal GPS:", error);
+  }
+}
+
+async function getCityName(lat, long) {
+  try {
+    const geoUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${long}&localityLanguage=id`;
+    const response = await fetch(geoUrl);
+    const data = await response.json();
+    const locationName = data.locality || data.city || "Lokasi Anda";
+    updateLocationTitle(locationName);
+  } catch (error) {
+    console.error("Gagal cari nama kota:", error);
+    updateLocationTitle("Sesuai GPS");
+  }
+}
+
+// Fungsi yang sebelumnya hilang, kini dikembalikan
+async function getJadwalByCity(city, country) {
+  try {
+    updateLocationTitle(city);
+    const originalUrl = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=20`;
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(
+      originalUrl
+    )}`;
+
+    const response = await fetch(proxyUrl);
+    const result = await response.json();
+
+    if (result.data && result.data.timings) {
+      updateUI(result.data.timings);
+    }
+  } catch (error) {
+    console.error("Gagal ambil jadwal default:", error);
+  }
+}
+
+// Fungsi Update Judul Lokasi (Hanya SATU versi yang benar)
+function updateLocationTitle(namaKota) {
+  const elemenJudul = document.getElementById("teks-kota");
+  if (elemenJudul) {
+    elemenJudul.textContent = `Jadwal Sholat - ${namaKota}`;
+  } else {
+    // Fallback darurat jika ID teks-kota tidak ketemu
+    const cardHeader = document.querySelector(".prayer-header h3");
+    if (cardHeader) cardHeader.textContent = `Jadwal Sholat - ${namaKota}`;
+  }
+}
+
+function updateUI(jadwal) {
+  const setTime = (id, time) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = time;
+  };
+  setTime("subuh", jadwal.Fajr);
+  setTime("dzuhur", jadwal.Dhuhr);
+  setTime("ashar", jadwal.Asr);
+  setTime("maghrib", jadwal.Maghrib);
+  setTime("isya", jadwal.Isha);
 }
