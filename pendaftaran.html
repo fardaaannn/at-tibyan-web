@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Fardan Azzuhri" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pendaftaran Santri Baru - At-Tibyan</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <div class="header-left-group">
+          <a href="index.html" class="logo">At-Tibyan</a>
+          <div class="menu-toggle"><span></span><span></span><span></span></div>
+          <nav>
+            <ul>
+              <li><a href="index.html">Beranda</a></li>
+              <li><a href="profil.html">Profil</a></li>
+              <li><a href="alamat.html">Alamat</a></li>
+              <li><a href="guru.html">Guru</a></li>
+              <li><a href="donasi.html">Donasi</a></li>
+              <li><a href="kontak.html">Kontak</a></li>
+              <li>
+                <a href="pendaftaran.html" class="active">Pendaftaran</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="header-right">
+          <button class="theme-toggle" aria-label="Ganti Tema">
+            <svg
+              class="sun-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="5"></circle>
+              <path
+                d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+              ></path>
+            </svg>
+            <svg
+              class="moon-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <article>
+        <h1>Formulir Pendaftaran</h1>
+        <div class="meta">Tahun Ajaran 2024/2025</div>
+
+        <p>
+          Silakan isi data calon santri di bawah ini. Data akan diteruskan ke
+          WhatsApp Admin untuk verifikasi lebih lanjut.
+        </p>
+
+        <form id="formPendaftaran" class="registration-form">
+          <div class="form-group">
+            <label for="namaLengkap">Nama Lengkap Calon Santri</label>
+            <input
+              type="text"
+              id="namaLengkap"
+              placeholder="Contoh: Muhammad Fatih"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="tempatTanggalLahir">Tempat, Tanggal Lahir</label>
+            <input
+              type="text"
+              id="tempatTanggalLahir"
+              placeholder="Contoh: Jakarta, 12 Agustus 2010"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="namaWali">Nama Orang Tua / Wali</label>
+            <input
+              type="text"
+              id="namaWali"
+              placeholder="Nama Ayah/Ibu"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="alamatLengkap">Alamat Domisili</label>
+            <textarea
+              id="alamatLengkap"
+              rows="3"
+              placeholder="Alamat lengkap saat ini"
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="programPilihan">Program yang Diminati</label>
+            <div class="select-wrapper">
+              <select id="programPilihan" required>
+                <option value="" disabled selected>Pilih Program</option>
+                <option value="Tahfidz Al-Qur'an">
+                  Tahfidz Al-Qur'an (Mondok)
+                </option>
+                <option value="Reguler (Pulang Pergi)">
+                  Reguler (Pulang Pergi)
+                </option>
+                <option value="Short Course (Liburan)">
+                  Short Course (Liburan)
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            Kirim Pendaftaran via WhatsApp
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              style="margin-left: 8px; width: 18px; height: 18px"
+            >
+              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path>
+            </svg>
+          </button>
+        </form>
+
+        <div class="page-navigation">
+          <a href="index.html" class="nav-btn">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              style="margin-right: 8px"
+            >
+              <path d="M15 19l-7-7 7-7" />
+            </svg>
+            Kembali ke Beranda
+          </a>
+        </div>
+      </article>
+    </div>
+
+    <button id="backToTop">Kembali ke Atas</button>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -773,3 +773,65 @@ tr:last-child td {
     text-align: center;
   }
 }
+/* --- TAMBAHAN UNTUK FORMULIR (JANGAN DIHAPUS) --- */
+.registration-form {
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--text-color);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-color);
+  font-family: inherit;
+  font-size: 16px;
+  box-sizing: border-box; /* Fix overflow */
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--blue-apple);
+}
+
+.submit-btn {
+  background: var(--blue-apple);
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 99px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.2s;
+}
+
+.submit-btn:hover {
+  opacity: 0.9;
+}
+
+/* Fix dropdown arrow on dark mode/light mode */
+.select-wrapper {
+  position: relative;
+}

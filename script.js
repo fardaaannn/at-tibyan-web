@@ -402,3 +402,41 @@ function updateUI(jadwal) {
   setTime("maghrib", jadwal.Maghrib);
   setTime("isya", jadwal.Isha);
 }
+// --- LOGIKA FORMULIR PENDAFTARAN (BARU) ---
+const formPendaftaran = document.getElementById("formPendaftaran");
+if (formPendaftaran) {
+  formPendaftaran.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // Ambil nilai input
+    const nama = document.getElementById("namaLengkap").value;
+    const ttl = document.getElementById("tempatTanggalLahir").value;
+    const wali = document.getElementById("namaWali").value;
+    const alamat = document.getElementById("alamatLengkap").value;
+    const program = document.getElementById("programPilihan").value;
+    const wa = document.getElementById("noWhatsapp").value;
+
+    // Nomor Admin (GANTI DENGAN NOMOR ANDA, format 628...)
+    const nomorAdmin = "6281234567890";
+
+    // Format Pesan
+    const pesan = `
+*PENDAFTARAN SANTRI BARU AT-TIBYAN*
+---------------------------
+Nama: ${nama}
+TTL: ${ttl}
+Wali: ${wali}
+Alamat: ${alamat}
+Program: ${program}
+No WA: ${wa}
+---------------------------
+Mohon info selanjutnya min.
+    `.trim();
+
+    // Buka WhatsApp
+    const urlWA = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(
+      pesan
+    )}`;
+    window.open(urlWA, "_blank");
+  });
+}
