@@ -138,7 +138,6 @@ if (containerHasil) {
 }
 
 // --- 5. LOGIKA HALAMAN DONASI (Laporan Keuangan) ---
-// Cek apakah kita berada di halaman donasi
 const tabelDonasi = document.getElementById("tabelDonasiBody");
 
 if (tabelDonasi) {
@@ -168,12 +167,9 @@ if (tabelDonasi) {
     let dataDitampilkan = 0;
 
     tbody.innerHTML = "";
-
-    // Reverse agar terbaru di atas
     const dataTerbalik = [...dataTransaksi].reverse();
 
     dataTerbalik.forEach((item) => {
-      // Format Tanggal: DD-MM-YYYY
       const parts = item.tanggal.split("-");
       const bulanData = parts[1];
       const tahunData = parts[2];
@@ -205,12 +201,10 @@ if (tabelDonasi) {
       }
     });
 
-    // Toggle Pesan Kosong
     if (pesanKosong) {
       pesanKosong.style.display = dataDitampilkan === 0 ? "block" : "none";
     }
 
-    // Update Summary
     if (document.getElementById("totalMasuk"))
       document.getElementById("totalMasuk").innerText =
         "Rp " + totMasuk.toLocaleString("id-ID");
@@ -222,7 +216,6 @@ if (tabelDonasi) {
         "Rp " + (totMasuk - totKeluar).toLocaleString("id-ID");
   }
 
-  // Event Listeners Donasi
   document
     .getElementById("filterBulan")
     .addEventListener("change", renderKeuangan);
@@ -230,15 +223,12 @@ if (tabelDonasi) {
     .getElementById("filterTahun")
     .addEventListener("change", renderKeuangan);
 
-  // Init
   renderKeuangan();
 }
 
-// Fungsi Salin Rekening (Global)
 function salinRekening() {
   const norekEl = document.getElementById("norek");
   if (!norekEl) return;
-
   var norekText = norekEl.innerText;
   navigator.clipboard.writeText(norekText).then(
     function () {
@@ -275,13 +265,14 @@ if (kirimPesanBtn) {
     if (modal) modal.style.display = "none";
   }
 
-  // Expose ke global window agar tombol 'Tutup' di HTML bisa akses
   window.tutupModal = tutupModal;
 
   // Event Listener Tombol Kirim
   kirimPesanBtn.addEventListener("click", function () {
     var nama = document.getElementById("inputNama").value.trim();
     var pesan = document.getElementById("inputPesan").value.trim();
+    // Ambil Nilai Subjek (NEW)
+    var subjek = document.getElementById("inputSubjek").value;
 
     // Logika Validasi
     if (nama === "" && pesan === "") {
@@ -295,12 +286,15 @@ if (kirimPesanBtn) {
       return;
     }
 
-    // Kirim ke WA
-    var nomorAdmin = "6288211924082"; // Ganti sesuai kebutuhan
+    // Kirim ke WA (Dengan Format Subjek)
+    var nomorAdmin = "6288211924082";
     var textEncoded =
       "Assalamu'alaikum Admin At-Tibyan,%0A%0ASaya *" +
       nama +
       "*.%0A" +
+      "*Perihal: " +
+      subjek +
+      "*%0A%0A" +
       encodeURIComponent(pesan);
 
     var urlWA = "https://wa.me/" + nomorAdmin + "?text=" + textEncoded;

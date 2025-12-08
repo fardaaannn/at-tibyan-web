@@ -474,7 +474,6 @@ ul.detail-list li {
 }
 
 /* --- KHUSUS DONASI (LAPORAN KEUANGAN) --- */
-/* Dipindahkan dari donasi.html */
 .financial-summary {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -569,9 +568,8 @@ tr:last-child td {
 }
 
 /* --- KHUSUS KONTAK (MODAL) --- */
-/* Dipindahkan dari kontak.html */
 .custom-modal-overlay {
-  display: none; /* Default tersembunyi */
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -634,4 +632,62 @@ tr:last-child td {
 }
 .modal-btn:hover {
   opacity: 0.9;
+}
+
+/* --- SOSIAL MEDIA BUTTONS (BARU) --- */
+.social-section {
+  margin-top: 30px;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+  padding-top: 30px;
+}
+.social-label {
+  font-size: 14px;
+  color: #86868b;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+.social-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.soc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  transition: transform 0.2s, opacity 0.2s;
+  border: none;
+}
+.soc-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+.soc-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+/* Warna Brand */
+.yt {
+  background-color: #ff0000;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+}
+.ig {
+  background: linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+  box-shadow: 0 4px 12px rgba(220, 39, 67, 0.2);
 }
