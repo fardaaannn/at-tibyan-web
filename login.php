@@ -83,7 +83,7 @@
     </button>
 
     <div class="summary-card login-box">
-        <h2 style="text-align:center; margin-bottom:20px;">Admin Login</h2>
+        <h2 style="text-align:center; margin-bottom:20px;">Atmin Telah Datang</h2>
         <form method="POST">
             <div class="form-group">
                 <label>Username</label>
@@ -128,7 +128,7 @@
                 echo "<script>
                     Swal.fire({
                         icon: 'error',
-                        title: 'wkwkwk',
+                        title: 'wkwk',
                         text: 'isi username dan password yang benar lee'
                     });
                 </script>";

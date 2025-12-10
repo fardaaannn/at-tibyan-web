@@ -113,6 +113,24 @@ if (isset($_POST['upload'])) {
 
     <div class="container">
         <div class="summary-card">
+            <?php
+// Ambil jam sekarang (format 0-23)
+$jam = date('H'); 
+$sapaan = "";
+
+// Logika IF-ELSE BERTINGKAT
+if ($jam < 10) {
+    $sapaan = "Selamat Pagi";
+} elseif ($jam < 15) {
+    $sapaan = "Selamat Siang";
+} elseif ($jam < 18) {
+    $sapaan = "Selamat Sore";
+} else {
+    $sapaan = "Selamat Malam";
+}
+?>
+
+<h3>Halo Admin, <?= $sapaan ?>! Semangat mengelola website.</h3>
             <h2 style="margin-bottom: 20px;">Upload Kegiatan</h2>
             <?php if ($msg) echo "<div class='alert $msg_type'>$msg</div>"; ?>
                 
